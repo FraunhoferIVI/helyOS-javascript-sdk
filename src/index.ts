@@ -1,0 +1,273 @@
+import gql from "graphql-tag";
+import { ApolloClient, DefaultOptions } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { setContext } from 'apollo-link-context';
+import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service, 
+        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest } from './helyos.models';
+import * as io from 'socket.io-client'
+import CheapRuler from "cheap-ruler";
+import { SHAPES } from "./cruds/shapes";
+import { TOOLS } from "./cruds/agents";
+import { YARD } from "./cruds/yards";
+import { ASSIGNMENT } from "./cruds/assignments";
+import { WORKPROCESS } from "./cruds/wprocess";
+import { WORKPROCESS_TYPE } from "./cruds/wprocess_types";
+import { WORKPROCESS_SERVICE_PLAN } from "./cruds/wprocess_service_matrix";
+import { EXTERNALSERVICES } from "./cruds/external_services";
+import { GUIDELINE } from "./cruds/guidelines";
+import { SERVICEREQUESTS } from "./cruds/service_requests";
+import { TARGET } from "./cruds/targets";
+
+const socketOptions = {
+    transports : ['websocket'],
+}
+
+
+///////////////////////// GraphQL Setup/////////////////////////
+
+const defaultOptions: DefaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'network-only', //   'network-only' | 'no-cache'
+        errorPolicy: 'ignore',
+    },
+    query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    },
+}
+
+
+export { H_Shape, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
+         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, Timestamp };
+
+
+
+
+/////////////////////// GraphQL SERVICES /////////////////////////
+export class HelyosServices {
+    shapes: SHAPES;
+    tools: TOOLS;
+    target: TARGET;
+    yard: YARD;
+    assignments: ASSIGNMENT;
+    workProcess: WORKPROCESS;
+    workProcessServicePlan: WORKPROCESS_SERVICE_PLAN;
+    workProcessType: WORKPROCESS_TYPE;
+    extServices: EXTERNALSERVICES;
+    guidelines: GUIDELINE;
+    servciceRequests: SERVICEREQUESTS;
+
+    public connectionId: number;
+    public connected: boolean = false;
+    public socket;
+    public token;
+    private _httpLink: HttpLink; 
+    private _client: ApolloClient<any>;
+    public ports: any;
+    public url: string;
+    public username: string;
+
+    constructor(url:string, ports:{socketPort:string, gqlPort: string}, token=null) {
+        this.url = url;
+        this.ports = ports;
+        this._httpLink = new HttpLink({
+            uri: `${url}:${ports.gqlPort}/graphql`, fetch
+        });
+
+        const authLink = setContext((_, { headers }) => {
+            if (!this.token){
+                return {...headers};
+            }
+
+            return {
+                headers: {
+                    ...headers,
+                    authorization: this.token ? `Bearer ${this.token}` : "",
+                } 
+            }
+        });
+
+        this.set_client(authLink);
+    }
+
+
+    private set_client(authLink) {
+        this._client = new ApolloClient({
+            link: authLink.concat(this._httpLink),
+            cache: new InMemoryCache(),
+            defaultOptions: defaultOptions,
+        });
+        
+        if (this.connected) {
+            this.shapes = new SHAPES(this._client, this.socket);
+            this.tools = new TOOLS(this._client, this.socket);
+            this.workProcess = new WORKPROCESS(this._client, this.socket);
+            this.workProcessServicePlan = new WORKPROCESS_SERVICE_PLAN(this._client, this.socket);
+
+            this.workProcessType = new WORKPROCESS_TYPE(this._client, this.socket);
+            this.target = new TARGET(this._client, this.socket);
+            this.yard = new YARD(this._client, this.socket);
+            this.extServices = new EXTERNALSERVICES(this._client, this.socket);
+            this.guidelines = new GUIDELINE(this._client, this.socket);
+            this.assignments = new ASSIGNMENT(this._client, this.socket);
+            this.servciceRequests = new SERVICEREQUESTS(this._client, this.socket);
+
+        } else {
+            console.log('web socket is not connected; check websocket url and port or try to login (username, password) again.')
+        }
+    }
+
+
+    connect() : Promise <any> {
+        const self = this;
+        const socketOptions = {
+            transports : ['websocket'],
+        }
+
+        this.socket =  io.connect( `${this.url}:${this.ports.socketPort}/`,socketOptions);
+        const promise = new Promise((resolve, reject) => {
+            const self2 = self;
+            self.socket.on('connect', () =>{
+                                self2.connectionId= self.socket.io.engine.id;
+                                self2.connected = true;
+                                const authLink = setContext((_, { headers }) => {
+                                    return {
+                                        headers: {
+                                            ...headers,
+                                            authorization: this.token ? `Bearer ${this.token}` : "",
+                                        } 
+                                    }
+                                });
+                                self2.set_client(authLink);
+                                resolve (true)
+            });
+        });
+
+        return promise;
+    }
+
+    register(name, email, password, adminPassword): Promise <any> {
+        const QUERY_FUNTCION = 'registerUser';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: RegisterUserInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+            user {
+                id,
+                createdAt,
+                }
+            }
+        }
+        `;
+
+        const postMessage = { clientMutationId: "not_used", ...{name, email, password, adminPassword} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{name, email, password, adminPassword} } })
+            .then(response => {
+                return response.data[QUERY_FUNTCION].user;
+            })
+            .catch(e => console.log(e));
+    }
+
+ 
+    login(email: string, password: string): Promise <any> {
+        const QUERY_FUNTCION = 'authenticate';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: AuthenticateInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+                jwtToken
+            }
+        }
+        `;
+        
+        const postMessage = { clientMutationId: "not_used", ...{email, password} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email, password} } })
+            .then(response => {
+                if (response.data[QUERY_FUNTCION].jwtToken) {
+                    this.token = response.data[QUERY_FUNTCION].jwtToken;
+                    this.username = email;
+                }
+                return response.data[QUERY_FUNTCION];
+            })
+            .catch(e => console.log(e));
+
+    }
+
+
+     
+    changePassword(email: string, password: string, newPassowrd: string): Promise <any> {
+        const QUERY_FUNTCION = 'changePassword';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: ChangePasswordInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+                jwtToken
+            }
+        }
+        `;
+        
+        const postMessage = { clientMutationId: "not_used", ...{email, password, newPassowrd} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email, password, newPassowrd} } })
+            .then(response => {
+                if (response.data[QUERY_FUNTCION].jwtToken) {
+                    this.token = response.data[QUERY_FUNTCION].jwtToken;
+                    this.username = email;
+                }
+                return response.data[QUERY_FUNTCION];
+            })
+            .catch(e => console.log(e));
+
+    }
+
+
+    logout(email: string = null): Promise <any> {
+        const QUERY_FUNTCION = 'logout';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: LogoutInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+                jwtToken
+            }
+        }
+        `;
+
+        if (!email){
+            email = this.username;
+        }
+        const postMessage = { clientMutationId: "not_used", ...{email} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email} } })
+            .then(response => {
+                if (response.data[QUERY_FUNTCION].jwtToken) {
+                    this.token = null;
+                }
+                return{msg:'token invalidated'};
+            })
+            .catch(e => console.log(e));
+
+    }
+
+
+    convertMMtoLatLng(originLat: number, originLon: number, shapePoints: number[][]) {
+        const ruler = new CheapRuler(originLat, 'meters'); // calculations around latitude 
+        const latlngShapePoints = shapePoints.map(point => {
+            const convertedPoint = ruler.offset([originLon, originLat ], point[0]/1000, point[1]/1000)
+            return [convertedPoint[1], convertedPoint[0]];
+        } );
+        return latlngShapePoints;
+    }
+
+    convertLatLngToMM(originLat:number , originLon:number , shapeLatLngPoints: number[][]) {
+        const ruler = new CheapRuler(originLat, 'meters'); // calculations around latitude 
+        const points = shapeLatLngPoints.map(point => {
+            const distance = ruler.distance([originLon, originLat ], [point[1], point[0]])
+            const angle = ruler.bearing([originLon, originLat ], [point[1], point[0]])*Math.PI / 180;
+            return [distance*1000*Math.sin(angle), distance*1000*Math.cos(angle)];
+        } );
+        return points;
+    }
+
+
+
+
+}

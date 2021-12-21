@@ -1,0 +1,6 @@
+{
+    "name": "helyOS-JavaScript-SDK",
+    "entryPoints": [".\\src\\index.ts"],
+    "out": "docs",
+    "excludePrivate": true
+  }
