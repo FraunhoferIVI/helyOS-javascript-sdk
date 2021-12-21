@@ -44,7 +44,7 @@ This library contains all necessary methods and entity types to build a front-en
 ### Built With
 
 * [Typescript](https://www.typescriptlang.org/)
-* [Appolo](https://www.apollographql.com/)
+* [Apollo](https://www.apollographql.com/)
 * [Socket.io](https://socket.io/)
 
 ## Getting Started
