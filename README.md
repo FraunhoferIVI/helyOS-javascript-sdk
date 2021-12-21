@@ -16,14 +16,14 @@
   <p align="center">
     A Javascript wrap for helyOS GrapQL interface.
     <br />
-    <a href="https://github.com/"><strong>Explore the docs »</strong></a>
+    <a href="https://fraunhoferivi.github.io/helyOS-javascript-sdk/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/">View Demo</a>
     ·
-    <a href="https://github.com//issues">Report Bug</a>
+    <a href="https://github.com/FraunhoferIVI/helyOS-javascript-sdk/issues">Report Bug</a>
     ·
-    <a href="https://github.com//issues">Request Feature</a>
+    <a href="https://github.com/FraunhoferIVI/helyOS-javascript-sdk/issues">Request Feature</a>
   </p>
 </div>
 
