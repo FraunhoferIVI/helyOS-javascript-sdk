@@ -1,0 +1,341 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>helyOS-JavaScript-SDK</title><meta name="description" content="Documentation for helyOS-JavaScript-SDK"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">helyOS-JavaScript-SDK</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>helyOS-JavaScript-SDK</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><div id="top"></div>
+
+
+
+
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/">
+    <img src="helyos_logo.png" alt="Logo"  height="80">
+  </a>
+
+  <h3 align="center">helyOS Javascript SDK</h3>
+
+  <p align="center">
+    A Javascript wrap for helyOS GrapQL interface.
+    <br />
+    <a href="https://github.com/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/">View Demo</a>
+    ·
+    <a href="https://github.com//issues">Report Bug</a>
+    ·
+    <a href="https://github.com//issues">Request Feature</a>
+  </p>
+</div>
+
+
+<a href="#about-the-project" id="about-the-project" style="color: inherit; text-decoration: none;">
+  <h2>About The Project</h2>
+</a>
+<p>The helyosjs-sdk allows the development of javascript applications using the helyOS framework.
+This library contains all necessary methods and entity types to build a front-end using helyOS as backend system. </p>
+
+<a href="#list-of-features" id="list-of-features" style="color: inherit; text-decoration: none;">
+  <h3>List of features</h3>
+</a>
+<ul>
+<li>Log in as administrator or regular user.</li>
+<li>List and edit automatons (tools).</li>
+<li>Retrieve sensors data and work process status.</li>
+<li>Create, schedule and handle work processes.</li>
+<li>Manage and edit yards: set drivable areas and obstacles.</li>
+</ul>
+
+<a href="#built-with" id="built-with" style="color: inherit; text-decoration: none;">
+  <h3>Built With</h3>
+</a>
+<ul>
+<li><a href="https://www.typescriptlang.org/">Typescript</a></li>
+<li><a href="https://www.apollographql.com/">Appolo</a></li>
+<li><a href="https://socket.io/">Socket.io</a></li>
+</ul>
+
+<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+  <h2>Getting Started</h2>
+</a>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h3>Installation</h3>
+</a>
+<pre><code class="language-shell"><span class="hl-0">$ npm i helyosjs-sdk  --save</span>
+</code></pre>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h3>Usage</h3>
+</a>
+<pre><code class="language-js"><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">HelyosServices</span><span class="hl-0">, </span><span class="hl-2">H_Tools</span><span class="hl-0">  } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;helyosjs-sdk&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">helyosService</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">HelyosServices</span><span class="hl-0">(</span><span class="hl-3">&#39;http://localhost&#39;</span><span class="hl-0">, {</span><span class="hl-2">socketPort:</span><span class="hl-3">&#39;5002&#39;</span><span class="hl-0">, </span><span class="hl-2">gqlPort:</span><span class="hl-3">&#39;5000&#39;</span><span class="hl-0">});</span><br/><br/><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">username</span><span class="hl-0"> = </span><span class="hl-3">&#39;admin@email.com&#39;</span><span class="hl-0">;</span><br/><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">password</span><span class="hl-0"> = </span><span class="hl-3">&#39;password&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-0"> </span><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-6">login</span><span class="hl-0">(</span><span class="hl-2">username</span><span class="hl-0">, </span><span class="hl-2">password</span><span class="hl-0">)</span><br/><span class="hl-0">.</span><span class="hl-6">then</span><span class="hl-0">( </span><span class="hl-2">response</span><span class="hl-0"> </span><span class="hl-4">=&gt;</span><span class="hl-0"> </span><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-6">connect</span><span class="hl-0">())</span><br/><span class="hl-0">.</span><span class="hl-6">then</span><span class="hl-0">( </span><span class="hl-2">connected</span><span class="hl-0"> </span><span class="hl-4">=&gt;</span><span class="hl-0"> </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">connected</span><span class="hl-0">));;</span><br/><br/><span class="hl-4">function</span><span class="hl-0"> </span><span class="hl-6">listTools</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-1">return</span><span class="hl-0"> </span><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-2">tools</span><span class="hl-0">.</span><span class="hl-6">list</span><span class="hl-0">(</span><span class="hl-7">0</span><span class="hl-0">)</span><br/><span class="hl-0">    .</span><span class="hl-6">then</span><span class="hl-0">((</span><span class="hl-2">tools</span><span class="hl-0">: </span><span class="hl-8">H_Tools</span><span class="hl-0">[]) </span><span class="hl-4">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">        </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">tools</span><span class="hl-0">);</span><br/><span class="hl-0">    });</span><br/><span class="hl-0">}</span><br/><br/><span class="hl-4">function</span><span class="hl-0"> </span><span class="hl-6">editTool</span><span class="hl-0">(</span><span class="hl-2">patch</span><span class="hl-0">: </span><span class="hl-8">H_Tools</span><span class="hl-0">) {</span><br/><span class="hl-0">    </span><span class="hl-1">return</span><span class="hl-0"> </span><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-2">tools</span><span class="hl-0">.</span><span class="hl-6">patch</span><span class="hl-0">(</span><span class="hl-2">patch</span><span class="hl-0">)</span><br/><span class="hl-0">    .</span><span class="hl-6">then</span><span class="hl-0">(</span><span class="hl-2">tool</span><span class="hl-0"> </span><span class="hl-4">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">        </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">tool</span><span class="hl-0">);</span><br/><span class="hl-0">    )}</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#listening-agenttool-sensors-and-work-process-status" id="listening-agenttool-sensors-and-work-process-status" style="color: inherit; text-decoration: none;">
+  <h3>Listening agent/tool sensors and work process status</h3>
+</a>
+<pre><code class="language-js"><br/><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-6">connect</span><span class="hl-0">()</span><br/><span class="hl-0">.</span><span class="hl-6">then</span><span class="hl-0">(() </span><span class="hl-4">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">            </span><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">socket</span><span class="hl-0"> = </span><span class="hl-2">helyosService</span><span class="hl-0">.</span><span class="hl-2">socket</span><span class="hl-0">;</span><br/><br/><span class="hl-0">            </span><span class="hl-2">socket</span><span class="hl-0">.</span><span class="hl-6">on</span><span class="hl-0">(</span><span class="hl-3">&#39;new_tool_poses&#39;</span><span class="hl-0">,(</span><span class="hl-2">updates</span><span class="hl-0">)</span><span class="hl-4">=&gt;</span><span class="hl-0">{</span><br/><span class="hl-0">                </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">updates</span><span class="hl-0">);  </span><span class="hl-9">// Notifications from tool sensors.</span><br/><span class="hl-0">            });</span><br/><br/><span class="hl-0">            </span><span class="hl-2">socket</span><span class="hl-0">.</span><span class="hl-6">on</span><span class="hl-0">(</span><span class="hl-3">&#39;change_tool_status&#39;</span><span class="hl-0">,(</span><span class="hl-2">updates</span><span class="hl-0">)</span><span class="hl-4">=&gt;</span><span class="hl-0">{</span><br/><span class="hl-0">                </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">updates</span><span class="hl-0">);  </span><span class="hl-9">// Notifications from tools working status.</span><br/><span class="hl-0">            });</span><br/><br/><span class="hl-0">            </span><span class="hl-2">socket</span><span class="hl-0">.</span><span class="hl-6">on</span><span class="hl-0">(</span><span class="hl-3">&#39;change_work_processes&#39;</span><span class="hl-0">,(</span><span class="hl-2">updates</span><span class="hl-0">)</span><span class="hl-4">=&gt;</span><span class="hl-0">{</span><br/><span class="hl-0">                </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">(</span><span class="hl-2">updates</span><span class="hl-0">);  </span><span class="hl-9">// Notifications from work processes status.</span><br/><span class="hl-0">            });</span><br/><span class="hl-0">});</span><br/><br/>
+</code></pre>
+
+<a href="#command-reference" id="command-reference" style="color: inherit; text-decoration: none;">
+  <h3>Command Reference</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>helyosService.register(email,password,adminPassword): Promise</code></td>
+<td>Register new user.</td>
+</tr>
+<tr>
+<td><code>helyosService.login(username, password): Promise</code></td>
+<td>User login.</td>
+</tr>
+<tr>
+<td><code>helyosService.connect(): Promise</code></td>
+<td>Establish websocket connection after logged.</td>
+</tr>
+<tr>
+<td><code>helyosService.logout(): Promise</code></td>
+<td>User logout.</td>
+</tr>
+<tr>
+<td><code>helyosService.changePassword(user,password,newPassword): Promise</code></td>
+<td>Change password.</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>EXAMPLE OF CRUD OPERATIONS</td>
+<td></td>
+</tr>
+<tr>
+<td><code>helyosService.workprocess</code></td>
+<td>Work Processes services</td>
+</tr>
+<tr>
+<td>.list (condition: Partial<H_WorkProcess>): Promise&lt;H_WorkProcess[]&gt;</td>
+<td>list all work processes filtered by condition.</td>
+</tr>
+<tr>
+<td>.create (data: H_WorkProcess): Promise<H_WorkProcess></td>
+<td>create work process.</td>
+</tr>
+<tr>
+<td>.get (workProcessId: number): Promise<H_WorkProcess></td>
+<td>get work process by ID.</td>
+</tr>
+<tr>
+<td>.patch (data:Partial<H_WorkProcess>): Promise<H_WorkProcess></td>
+<td>edit work process.</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+</tbody></table>
+
+<a href="#most-important-models" id="most-important-models" style="color: inherit; text-decoration: none;">
+  <h3>Most important models</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>H_Tools</code></td>
+<td>Tool represents any movable device that can perform an action</td>
+</tr>
+<tr>
+<td>id: number</td>
+<td>unique db identifcation number</td>
+</tr>
+<tr>
+<td>code: number</td>
+<td>unique identifcation number</td>
+</tr>
+<tr>
+<td>name: string</td>
+<td>tool name</td>
+</tr>
+<tr>
+<td>picture: string</td>
+<td>base64 jpg</td>
+</tr>
+<tr>
+<td>yardId: number</td>
+<td>to which yard this tool is associated.</td>
+</tr>
+<tr>
+<td>status: string</td>
+<td>&#39;busy&#39;, &#39;free&#39;</td>
+</tr>
+<tr>
+<td>picture: string</td>
+<td>base64 jpg</td>
+</tr>
+<tr>
+<td>geometry: JSON</td>
+<td>Description of the tool geometry</td>
+</tr>
+<tr>
+<td>heartbeat: Date</td>
+<td>Last time tool contacted the yard base</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><code>H_Yard</code></td>
+<td>Physical space enclosing tools in a drivable area.</td>
+</tr>
+<tr>
+<td>id: number</td>
+<td>unique db identifcation number</td>
+</tr>
+<tr>
+<td>name: string</td>
+<td>yard name</td>
+</tr>
+<tr>
+<td>picture: string</td>
+<td>base64 jpg</td>
+</tr>
+<tr>
+<td>mapData:  {origin: {lat?: number, lon?: number, zoomLevel?: number}}</td>
+<td>base64 jpg</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><code>H_Shape</code></td>
+<td>Define drivable areas or obstacles inside the yard.</td>
+</tr>
+<tr>
+<td>id: number</td>
+<td>unique db identifcation number.</td>
+</tr>
+<tr>
+<td>yardId: number</td>
+<td>associated yard.</td>
+</tr>
+<tr>
+<td>deletedAt: Date</td>
+<td>when shape was marked deleted.</td>
+</tr>
+<tr>
+<td>geometry: {top: number, bottom: number, points: number[][]}</td>
+<td>shape of extruded polygon</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><code>H_WorkProcess</code></td>
+<td>Group and serialize actions to be executed by the tools.</td>
+</tr>
+<tr>
+<td>id: number</td>
+<td>unique db identifcation number.</td>
+</tr>
+<tr>
+<td>schedStartAt: date</td>
+<td>date and time when the process is scheduled to start.</td>
+</tr>
+<tr>
+<td>schedEndAt: date</td>
+<td>date and time when the process is predicted to end.</td>
+</tr>
+<tr>
+<td>startedAt: date</td>
+<td>date and time of actual start.</td>
+</tr>
+<tr>
+<td>endedAt: date</td>
+<td>date and time of actual end.</td>
+</tr>
+<tr>
+<td>status: string</td>
+<td>status.</td>
+</tr>
+<tr>
+<td>processType: string</td>
+<td>status.</td>
+</tr>
+<tr>
+<td>data:  MoveToTargetDescriptor | MoveFreeDescription</td>
+<td>Any JSON data that describes the actions.</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><code>H_Target</code></td>
+<td>Reference positions in the yard used by the worked process</td>
+</tr>
+<tr>
+<td>id: number</td>
+<td>unique db identifcation number.</td>
+</tr>
+<tr>
+<td>yardId: number</td>
+<td>associated yard.</td>
+</tr>
+<tr>
+<td>targetName: string</td>
+<td>name of target.</td>
+</tr>
+<tr>
+<td>targetType: string</td>
+<td>type of target.</td>
+</tr>
+<tr>
+<td>x: number</td>
+<td>horizontal distance from yard origin (milimeters).</td>
+</tr>
+<tr>
+<td>y: number</td>
+<td>vertical distance from yard origin (milimeters).</td>
+</tr>
+<tr>
+<td>orientation: number</td>
+<td>target orientation angle (mili radians).</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+</tbody></table>
+
+<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+  <h3>Contributing</h3>
+</a>
+<p>Keep it simple. Keep it minimal.</p>
+
+<a href="#authors" id="authors" style="color: inherit; text-decoration: none;">
+  <h3>Authors</h3>
+</a>
+<ul>
+<li>Carlos E. Viol Barbosa</li>
+<li>Nikolay Belov</li>
+</ul>
+
+<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+  <h3>License</h3>
+</a>
+<p>This project is licensed under the MIT License</p>
+<p><img src="autotruck.svg" alt=""></p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/_internal_.html">&lt;internal&gt;</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/H_Action.html" class="tsd-kind-icon">H_<wbr/>Action</a></li><li class="tsd-kind-class"><a href="classes/H_Assignment.html" class="tsd-kind-icon">H_<wbr/>Assignment</a></li><li class="tsd-kind-class"><a href="classes/H_Guideline.html" class="tsd-kind-icon">H_<wbr/>Guideline</a></li><li class="tsd-kind-class"><a href="classes/H_Service.html" class="tsd-kind-icon">H_<wbr/>Service</a></li><li class="tsd-kind-class"><a href="classes/H_ServiceRequest.html" class="tsd-kind-icon">H_<wbr/>Service<wbr/>Request</a></li><li class="tsd-kind-class"><a href="classes/H_Shape.html" class="tsd-kind-icon">H_<wbr/>Shape</a></li><li class="tsd-kind-class"><a href="classes/H_Target.html" class="tsd-kind-icon">H_<wbr/>Target</a></li><li class="tsd-kind-class"><a href="classes/H_Tools.html" class="tsd-kind-icon">H_<wbr/>Tools</a></li><li class="tsd-kind-class"><a href="classes/H_WorkProcess.html" class="tsd-kind-icon">H_<wbr/>Work<wbr/>Process</a></li><li class="tsd-kind-class"><a href="classes/H_WorkProcessServicePlan.html" class="tsd-kind-icon">H_<wbr/>Work<wbr/>Process<wbr/>Service<wbr/>Plan</a></li><li class="tsd-kind-class"><a href="classes/H_WorkProcessType.html" class="tsd-kind-icon">H_<wbr/>Work<wbr/>Process<wbr/>Type</a></li><li class="tsd-kind-class"><a href="classes/H_Yard.html" class="tsd-kind-icon">H_<wbr/>Yard</a></li><li class="tsd-kind-class"><a href="classes/HelyosServices.html" class="tsd-kind-icon">Helyos<wbr/>Services</a></li><li class="tsd-kind-interface"><a href="interfaces/GeoPoint.html" class="tsd-kind-icon">Geo<wbr/>Point</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Timestamp" class="tsd-kind-icon">Timestamp</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
