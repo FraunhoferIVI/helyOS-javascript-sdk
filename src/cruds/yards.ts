@@ -18,11 +18,11 @@ import { H_Yard  } from '../helyos.models';
         this._socket = socket;
     }
 
-    list(since: number): Promise<any> {
+    list(condition: Partial<H_Yard>={}): Promise<H_Yard[]> {
         const QUERY_FUNTCION = 'allYards';
         const TOOL_QUERY = gql`
-        query ${QUERY_FUNTCION}($test: YardCondition!){
-            ${QUERY_FUNTCION}(condition: $test) {
+        query ${QUERY_FUNTCION}($condition: YardCondition!){
+            ${QUERY_FUNTCION}(condition: $condition) {
                 edges {
                     node {
                         id,
@@ -50,11 +50,9 @@ import { H_Yard  } from '../helyos.models';
         if (this.yardsFecthing) { return this.getYardsPromise }
 
 
-        const localTime = new Date(since);
-        const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
         this.yardsFecthing = true;
         const self = this;
-        this.getYardsPromise= this._client.query({ query: TOOL_QUERY, variables: { test: {} } })
+        this.getYardsPromise= this._client.query({ query: TOOL_QUERY, variables:  { condition: condition } })
             .then(response => {
                 self.yardsFecthing =  false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);

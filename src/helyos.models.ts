@@ -25,6 +25,7 @@ export class H_Tools{
     x?: number;
     y?: number;
     orientation?: number;
+    orientations?: number[];
     sensors: any;
     picture: string;
     streamUrl: string;
@@ -37,6 +38,8 @@ export class ToolPose {
     x: number;
     y: number;
     orientation: number;
+    orientations?: number[];
+
 }
 
 
@@ -64,7 +67,8 @@ export class H_Yard {
     yardType: string;
     lat: number;
     lon: number;
-    mapData: {origin: GeoPoint} | string;
+    alt: number;
+    mapData: any;
     createdAt: Date;
     deletedAt: Date;
     modifiedAt: Date;
@@ -162,6 +166,8 @@ export class MoveFreeDescriptor  {
     x: number;
     y: number;
     orientation: number;
+    orientations?: number[];
+
 } 
 
 export class H_Target {
@@ -188,6 +194,7 @@ export class H_Guideline {
     geometry: any;
     geometryType: string;
     data: string;
+    dataType: string;
     createdAt: Date;
     deletedAt: Date;
     yardId: string | number;

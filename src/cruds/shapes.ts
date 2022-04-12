@@ -236,7 +236,7 @@ export class SHAPES {
             return this._client.mutate({ mutation: SHAPE_UPDATE, variables: { yardObj: {'yardIdInput': yardId} } })
                 .then(response => {
                     console.log('edit-delete request', response);
-                    return response.data.MarkDeletedAllShapesOfYard.shapes;
+                    return response.data
                 })
                 .catch(e => console.log(e))
     }

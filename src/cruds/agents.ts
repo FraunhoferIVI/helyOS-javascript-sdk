@@ -36,6 +36,7 @@ export class TOOLS {
                         dataFormat
                         geometry
                         createdAt
+                        isActuator
                         modifiedAt
                         picture
                         streamUrl
@@ -43,6 +44,7 @@ export class TOOLS {
                             x
                             y
                             orientation
+                            orientations
                             sensors
                     }
                 }   
@@ -81,6 +83,7 @@ export class TOOLS {
                 x,
                 y,
                 orientation,
+                orientations
                 toolId,
                 sensors,
                 }
@@ -160,6 +163,7 @@ export class TOOLS {
                     connectionStatus
                     uuid
                     geometry
+                    isActuator
                     createdAt
                     modifiedAt
                     picture
@@ -168,6 +172,7 @@ export class TOOLS {
                         x
                         y
                         orientation
+                        orientations
                         sensors
                 }
             }
@@ -209,15 +214,17 @@ export class TOOLS {
                 dataFormat
                 geometry
                 createdAt
+                isActuator
                 modifiedAt
                 picture
                 streamUrl
                 publicKey
                 yardId
-                    x
-                    y
-                    orientation
-                    sensors
+                x
+                y
+                orientation
+                orientations
+                sensors
             }
         }
         `;

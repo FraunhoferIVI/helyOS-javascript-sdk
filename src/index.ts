@@ -19,6 +19,8 @@ import { GUIDELINE } from "./cruds/guidelines";
 import { SERVICEREQUESTS } from "./cruds/service_requests";
 import { TARGET } from "./cruds/targets";
 
+const UTMConverter = require('utm-converter');
+
 const socketOptions = {
     transports : ['websocket'],
 }
@@ -248,21 +250,29 @@ export class HelyosServices {
     }
 
 
-    convertMMtoLatLng(originLat: number, originLon: number, shapePoints: number[][]) {
-        const ruler = new CheapRuler(originLat, 'meters'); // calculations around latitude 
+    convertMMtoLatLng(originLat: number,  originLon: number, shapePoints: number[][]) {
+        const converter = new UTMConverter();
+        const originUTM = converter.toUtm({coord: [originLon, originLat]});
+
         const latlngShapePoints = shapePoints.map(point => {
-            const convertedPoint = ruler.offset([originLon, originLat ], point[0]/1000, point[1]/1000)
-            return [convertedPoint[1], convertedPoint[0]];
+            const utmObj = {coord:{x: point[0]/1000 , y: point[1]/1000}, zone: originUTM.zone};
+            utmObj.coord.x += originUTM.coord.x;
+            utmObj.coord.y += originUTM.coord.y;
+            const latlngPoint = converter.toWgs(utmObj);
+            return [latlngPoint.coord.latitude, latlngPoint.coord.longitude];
         } );
         return latlngShapePoints;
     }
 
     convertLatLngToMM(originLat:number , originLon:number , shapeLatLngPoints: number[][]) {
-        const ruler = new CheapRuler(originLat, 'meters'); // calculations around latitude 
-        const points = shapeLatLngPoints.map(point => {
-            const distance = ruler.distance([originLon, originLat ], [point[1], point[0]])
-            const angle = ruler.bearing([originLon, originLat ], [point[1], point[0]])*Math.PI / 180;
-            return [distance*1000*Math.sin(angle), distance*1000*Math.cos(angle)];
+        const converter = new UTMConverter();
+        const originUTM = converter.toUtm({coord: [originLon, originLat]});
+        const originXY = [originUTM.coord.x, originUTM.coord.y];
+
+        const points = shapeLatLngPoints.map(latlng => {
+            const utmPoint = converter.toUtm( {coord: [latlng[1], latlng[0]], zone:originUTM.zone });
+            const xyPoint = [utmPoint.coord.x, utmPoint.coord.y];
+            return [(xyPoint[0] - originXY[0])*1000, (xyPoint[1] - originXY[1])*1000 ];
         } );
         return points;
     }

@@ -1,6 +1,6 @@
 {
   "name": "helyosjs-sdk",
-  "version": "0.1.60",
+  "version": "0.1.68",
   "description": "Comunicate with helyos postgress database using graphql interface",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,6 +45,7 @@
     "isomorphic-fetch": "^2.2.1",
     "node-fetch": "^2.6.0",
     "socket.io": "^2.2.0",
-    "subscriptions-transport-ws": "^0.9.15"
+    "subscriptions-transport-ws": "^0.9.15",
+    "utm-converter": "^0.1.1"
   }
 }
