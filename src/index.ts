@@ -18,6 +18,8 @@ import { EXTERNALSERVICES } from "./cruds/external_services";
 import { GUIDELINE } from "./cruds/guidelines";
 import { SERVICEREQUESTS } from "./cruds/service_requests";
 import { TARGET } from "./cruds/targets";
+import fetch from "node-fetch";
+
 
 const UTMConverter = require('utm-converter');
 
