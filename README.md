@@ -32,6 +32,9 @@
 The helyosjs-sdk allows the development of javascript applications using the helyOS framework.
 This library contains all necessary methods and entity types to build a front-end using helyOS as backend system. 
 
+
+![](autotruck.gif)
+
 ### List of features
 
 *   Log in as administrator or regular user.
@@ -194,5 +197,3 @@ Keep it simple. Keep it minimal.
 ### License
 
 This project is licensed under the MIT License
-
-![](autotruck.svg)

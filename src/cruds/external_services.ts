@@ -18,7 +18,7 @@ import { H_Service } from '../helyos.models';
         this._socket = socket;
     }
 
-        list(since: number): Promise<any> {
+        list(condition: Partial<H_Service>): Promise<any> {
             const QUERY_FUNTCION = 'allServices';
             const QUERY_STR = gql`
             query ${QUERY_FUNTCION}($test: ServiceCondition!){
@@ -34,6 +34,7 @@ import { H_Service } from '../helyos.models';
                     isDummy,
                     enabled,
                     config,
+                    resultTimeout,
                     createdAt,
                     deletedAt,
                     modifiedAt,
@@ -43,16 +44,13 @@ import { H_Service } from '../helyos.models';
             }
             `;
 
-            const localTime = new Date(since);
-            const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
             if (this.fetching) { return this.getExtServicesPromise }
 
             this.fetching = true;
-            this.getExtServicesPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
+            this.getExtServicesPromise = this._client.query({ query: QUERY_STR, variables: { test: condition}  })
                 .then(response => {
                     this.fetching = false;
-                    console.log("update time from gql", timestampSeconds);
                     return  gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 })
                 .catch(e => console.log(e))
@@ -77,6 +75,7 @@ import { H_Service } from '../helyos.models';
                             isDummy,
                             enabled,
                             config,
+                            resultTimeout,
                             createdAt,
                             deletedAt,
                             modifiedAt,
@@ -110,6 +109,8 @@ import { H_Service } from '../helyos.models';
                             serviceUrl,
                             licenceKey,
                             config,
+                            resultTimeout,
+
                         }
                 }
             }
@@ -145,6 +146,7 @@ import { H_Service } from '../helyos.models';
                         createdAt,
                         deletedAt,
                         modifiedAt,
+                        resultTimeout
                 }
             }
             `;

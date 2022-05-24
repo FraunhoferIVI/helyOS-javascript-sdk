@@ -33,6 +33,9 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                         startAt
                         serviceUrl
                         serviceType
+                        resultTimeout
+                        dispatchedAt
+                        resultAt
                         serviceQueueId
                         response
                         requestUid
@@ -83,6 +86,10 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     startAt
                     serviceUrl
                     serviceType
+                    resultTimeout
+                    dispatchedAt
+                    resultAt
+                    resultTimeout
                     serviceQueueId
                     response
                     requestUid
