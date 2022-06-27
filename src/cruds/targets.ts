@@ -80,6 +80,7 @@ export class TARGET  {
         
         `;
 
+        delete target.id;
         const postMessage = { clientMutationId: "not_used", target: target };
         console.log("postMessage",postMessage)
         return this._client.mutate({ mutation: CREATE, variables: { postMessage, target: target } })

@@ -21,7 +21,7 @@
     "api"
   ],
   "author": "Carlos Viol Barbosa",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/basic-auth": "^1.1.2",
     "@types/cheap-ruler": "^2.5.0",

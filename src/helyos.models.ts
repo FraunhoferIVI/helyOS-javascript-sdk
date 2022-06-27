@@ -90,6 +90,7 @@ export class H_Service {
     createdAt: Date;
     deletedAt: Date;
     modifiedAt: Date;
+    resultTimeout: number;
 }
 
 export class H_ServiceRequest {
@@ -112,6 +113,8 @@ export class H_ServiceRequest {
     fetched: boolean;
     dependOnRequests: string;
     createdAt: Date;
+    dispatchedAt: Date;
+    resultAt: Date;
     canceled: boolean;
 }
 
@@ -198,6 +201,19 @@ export class H_Guideline {
     createdAt: Date;
     deletedAt: Date;
     yardId: string | number;
+}
+
+export class H_SystemLog {
+    id: string | number;
+    createdAt: Date;
+    wprocId?: number;
+    toolUuid?: string;
+    serviceType?: string;
+    event: string;
+    origin: string;
+    logType: string;
+    collected: boolean;
+    msg: string;
 }
 
 interface H_ActionMessageData {

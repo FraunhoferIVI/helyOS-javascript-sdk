@@ -4,9 +4,8 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
 import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service, 
-        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest } from './helyos.models';
+        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog } from './helyos.models';
 import * as io from 'socket.io-client'
-import CheapRuler from "cheap-ruler";
 import { SHAPES } from "./cruds/shapes";
 import { TOOLS } from "./cruds/agents";
 import { YARD } from "./cruds/yards";
@@ -19,6 +18,7 @@ import { GUIDELINE } from "./cruds/guidelines";
 import { SERVICEREQUESTS } from "./cruds/service_requests";
 import { TARGET } from "./cruds/targets";
 import fetch from "node-fetch";
+import { SYSTEMLOGS } from "./cruds/system_logs";
 
 
 const UTMConverter = require('utm-converter');
@@ -43,7 +43,7 @@ const defaultOptions: DefaultOptions = {
 
 
 export { H_Shape, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
-         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, Timestamp };
+         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, Timestamp };
 
 
 
@@ -54,6 +54,7 @@ export class HelyosServices {
     tools: TOOLS;
     target: TARGET;
     yard: YARD;
+    systemLogs: SYSTEMLOGS;
     assignments: ASSIGNMENT;
     workProcess: WORKPROCESS;
     workProcessServicePlan: WORKPROCESS_SERVICE_PLAN;
@@ -108,7 +109,7 @@ export class HelyosServices {
             this.tools = new TOOLS(this._client, this.socket);
             this.workProcess = new WORKPROCESS(this._client, this.socket);
             this.workProcessServicePlan = new WORKPROCESS_SERVICE_PLAN(this._client, this.socket);
-
+            this.systemLogs = new SYSTEMLOGS(this._client, this.socket);
             this.workProcessType = new WORKPROCESS_TYPE(this._client, this.socket);
             this.target = new TARGET(this._client, this.socket);
             this.yard = new YARD(this._client, this.socket);
