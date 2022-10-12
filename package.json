@@ -1,7 +1,7 @@
 {
   "name": "helyosjs-sdk",
-  "version": "0.1.83",
-  "description": "Comunicate with helyos postgress database using graphql interface",
+  "version": "0.2.13",
+  "description": "Comunication with helyos postgress database using graphql interface",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

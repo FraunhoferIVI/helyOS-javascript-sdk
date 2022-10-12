@@ -4,7 +4,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
 import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service, 
-        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog } from './helyos.models';
+        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount } from './helyos.models';
 import * as io from 'socket.io-client'
 import { SHAPES } from "./cruds/shapes";
 import { TOOLS } from "./cruds/agents";
@@ -19,6 +19,7 @@ import { SERVICEREQUESTS } from "./cruds/service_requests";
 import { TARGET } from "./cruds/targets";
 import fetch from "node-fetch";
 import { SYSTEMLOGS } from "./cruds/system_logs";
+import { USERACCOUNT } from "./cruds/userAccounts";
 
 
 const UTMConverter = require('utm-converter');
@@ -43,13 +44,14 @@ const defaultOptions: DefaultOptions = {
 
 
 export { H_Shape, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
-         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, Timestamp };
+         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp };
 
 
 
 
 /////////////////////// GraphQL SERVICES /////////////////////////
 export class HelyosServices {
+    userAccounts: USERACCOUNT;
     shapes: SHAPES;
     tools: TOOLS;
     target: TARGET;
@@ -105,6 +107,7 @@ export class HelyosServices {
         });
         
         if (this.connected) {
+            this.userAccounts = new USERACCOUNT(this._client, this.socket);
             this.shapes = new SHAPES(this._client, this.socket);
             this.tools = new TOOLS(this._client, this.socket);
             this.workProcess = new WORKPROCESS(this._client, this.socket);
@@ -152,7 +155,7 @@ export class HelyosServices {
         return promise;
     }
 
-    register(name, email, password, adminPassword): Promise <any> {
+    register(name, username, password, adminPassword): Promise <any> {
         const QUERY_FUNTCION = 'registerUser';
         const GQL_REQUEST = gql`
         mutation ${QUERY_FUNTCION}($postMessage: RegisterUserInput!){
@@ -165,9 +168,9 @@ export class HelyosServices {
         }
         `;
 
-        const postMessage = { clientMutationId: "not_used", ...{name, email, password, adminPassword} };
+        const postMessage = { clientMutationId: "not_used", ...{name, username, password, adminPassword} };
         console.log("postMessage",postMessage)
-        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{name, email, password, adminPassword} } })
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{name, username, password, adminPassword} } })
             .then(response => {
                 return response.data[QUERY_FUNTCION].user;
             })
@@ -175,7 +178,7 @@ export class HelyosServices {
     }
 
  
-    login(email: string, password: string): Promise <any> {
+    login(username: string, password: string): Promise <any> {
         const QUERY_FUNTCION = 'authenticate';
         const GQL_REQUEST = gql`
         mutation ${QUERY_FUNTCION}($postMessage: AuthenticateInput!){
@@ -185,13 +188,13 @@ export class HelyosServices {
         }
         `;
         
-        const postMessage = { clientMutationId: "not_used", ...{email, password} };
+        const postMessage = { clientMutationId: "not_used", ...{username, password} };
         console.log("postMessage",postMessage)
-        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email, password} } })
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username, password} } })
             .then(response => {
                 if (response.data[QUERY_FUNTCION].jwtToken) {
                     this.token = response.data[QUERY_FUNTCION].jwtToken;
-                    this.username = email;
+                    this.username = username;
                 }
                 return response.data[QUERY_FUNTCION];
             })
@@ -200,8 +203,25 @@ export class HelyosServices {
     }
 
 
+    adminGetUserAuthToken(username: string): Promise <any> {
+        const QUERY_FUNTCION = 'adminGetUserAuthtoken';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: AdminGetUserAuthtokenInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+                jwtToken
+            }
+        }
+        `;
+        const postMessage = { clientMutationId: "not_used", ...{username} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username} } })
+            .then(response => {
+                return response.data[QUERY_FUNTCION];
+            })
+            .catch(e => console.log(e));
+    }
      
-    changePassword(email: string, password: string, newPassowrd: string): Promise <any> {
+    changePassword(username: string, password: string, newPassowrd: string): Promise <any> {
         const QUERY_FUNTCION = 'changePassword';
         const GQL_REQUEST = gql`
         mutation ${QUERY_FUNTCION}($postMessage: ChangePasswordInput!){
@@ -211,13 +231,13 @@ export class HelyosServices {
         }
         `;
         
-        const postMessage = { clientMutationId: "not_used", ...{email, password, newPassowrd} };
+        const postMessage = { clientMutationId: "not_used", ...{username, password, newPassowrd} };
         console.log("postMessage",postMessage)
-        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email, password, newPassowrd} } })
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username, password, newPassowrd} } })
             .then(response => {
                 if (response.data[QUERY_FUNTCION].jwtToken) {
                     this.token = response.data[QUERY_FUNTCION].jwtToken;
-                    this.username = email;
+                    this.username = username;
                 }
                 return response.data[QUERY_FUNTCION];
             })
@@ -225,8 +245,27 @@ export class HelyosServices {
 
     }
 
+    adminChangePassword(username: string, password: string): Promise <any> {
+        const QUERY_FUNTCION = 'adminChangePassword';
+        const GQL_REQUEST = gql`
+        mutation ${QUERY_FUNTCION}($postMessage: AdminChangePasswordInput!){
+            ${QUERY_FUNTCION}(input: $postMessage) { 
+                integer
+            }
+        }
+        `;
+        
+        const postMessage = { clientMutationId: "not_used", ...{username, password} };
+        console.log("postMessage",postMessage)
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username, password} } })
+            .then(response => {
+                return response.data[QUERY_FUNTCION];
+            })
+            .catch(e => console.log(e));
+    }
 
-    logout(email: string = null): Promise <any> {
+
+    logout(username: string = null): Promise <any> {
         const QUERY_FUNTCION = 'logout';
         const GQL_REQUEST = gql`
         mutation ${QUERY_FUNTCION}($postMessage: LogoutInput!){
@@ -236,12 +275,12 @@ export class HelyosServices {
         }
         `;
 
-        if (!email){
-            email = this.username;
+        if (!username){
+            username = this.username;
         }
-        const postMessage = { clientMutationId: "not_used", ...{email} };
+        const postMessage = { clientMutationId: "not_used", ...{username} };
         console.log("postMessage",postMessage)
-        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{email} } })
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username} } })
             .then(response => {
                 if (response.data[QUERY_FUNTCION].jwtToken) {
                     this.token = null;

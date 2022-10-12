@@ -58,6 +58,19 @@ export class H_Shape{
 }
 
 
+export class  H_UserAccount {
+    id: number;
+    userId: number;
+    email: string;
+    metadata: any;
+    username: string;
+    passwordHash: string;
+    userRole: number;
+    createdAt: Date;
+    modifiedAt: Date;
+
+}
+
 export class H_Yard {
     id: string | number;
     uid: string;
@@ -133,7 +146,8 @@ export class H_WorkProcess {
     workProcessTypeName: string;
     workProcessTypeId: string;
     description: MoveToTargetDescriptor | MoveFreeDescriptor | string;
-    data: MoveToTargetDescriptor | MoveFreeDescriptor   ;
+    data: MoveToTargetDescriptor | MoveFreeDescriptor;
+    waitFreeAgent: boolean;
 }
 
 export class H_WorkProcessType {
