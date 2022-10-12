@@ -2,7 +2,7 @@ import { HelyosServices } from 'helyosjs-sdk';
 
 
 const helyosService = new HelyosServices('http://localhost', {socketPort:'5002', gqlPort:'5000'});
-const username = 'admin@trucktrix.com';
+const username = 'admin';
 const password = 'admin';
 
 helyosService.login(username, password)
