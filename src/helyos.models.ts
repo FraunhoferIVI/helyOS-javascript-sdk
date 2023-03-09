@@ -18,6 +18,8 @@ export class H_Tools{
     code: string;
     toolType: string;
     dataFormat: string;
+    sensorsDataFormat: string;
+    geometryDataFormat: string;
     geometry: any;
     createdAt: Date;
     modifiedAt: Date;
@@ -54,6 +56,19 @@ export class H_Shape{
     deletedAt: Date;
     isObstacle: boolean;
     isPermanent: boolean;
+    yardId: number | string;
+}
+
+export class H_MapObject{
+    id: number | string;
+    name: string;
+    data: any;
+    metadata: any;
+    dataFormat: string;
+    type: string;
+    createdAt: Date;
+    modifiedAt: Date;
+    deletedAt: Date;
     yardId: number | string;
 }
 

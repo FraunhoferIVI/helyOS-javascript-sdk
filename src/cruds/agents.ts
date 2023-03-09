@@ -34,6 +34,8 @@ export class TOOLS {
                         toolType
                         uuid
                         dataFormat
+                        sensorsDataFormat
+                        geometryDataFormat
                         geometry
                         createdAt
                         isActuator
@@ -126,6 +128,8 @@ export class TOOLS {
                         wpClearance
                         connectionStatus,
                         dataFormat,
+                        sensorsDataFormat,
+                        geometryDataFormat,
                         geometry,
                         isActuator,
                         name,
@@ -163,6 +167,8 @@ export class TOOLS {
                     connectionStatus
                     uuid
                     geometry
+                    sensorsDataFormat
+                    geometryDataFormat
                     isActuator
                     createdAt
                     modifiedAt
@@ -212,6 +218,8 @@ export class TOOLS {
                 toolType
                 uuid
                 dataFormat
+                sensorsDataFormat
+                geometryDataFormat
                 geometry
                 createdAt
                 isActuator

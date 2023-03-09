@@ -26,7 +26,6 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                 edges {
                     node {
                         assignmentDispatched
-                        context
                         workProcessId
                         step
                         status
@@ -37,9 +36,7 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                         dispatchedAt
                         resultAt
                         serviceQueueId
-                        response
                         requestUid
-                        request
                         processed
                         nodeId
                         nextRequestToDispatchUid

@@ -29,15 +29,12 @@ import { H_Assignment } from '../helyos.models';
                 node {
                     id
                     yardId
-                    data 
                     workProcessId
                     toolId
                     status
                     startTimeStamp
                     dependOnAssignments
                     nextAssignments
-                    context
-                    result
                     error
                     createdAt
                     modifiedAt

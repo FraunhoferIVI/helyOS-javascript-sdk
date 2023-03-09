@@ -20,6 +20,7 @@ import { TARGET } from "./cruds/targets";
 import fetch from "node-fetch";
 import { SYSTEMLOGS } from "./cruds/system_logs";
 import { USERACCOUNT } from "./cruds/userAccounts";
+import { MAPOBJECTS } from "./cruds/map_objects";
 
 
 const UTMConverter = require('utm-converter');
@@ -53,6 +54,7 @@ export { H_Shape, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_Wor
 export class HelyosServices {
     userAccounts: USERACCOUNT;
     shapes: SHAPES;
+    mapObjects: MAPOBJECTS;
     tools: TOOLS;
     target: TARGET;
     yard: YARD;
@@ -107,6 +109,7 @@ export class HelyosServices {
         });
         
         if (this.connected) {
+            this.mapObjects = new MAPOBJECTS(this._client, this.socket);
             this.userAccounts = new USERACCOUNT(this._client, this.socket);
             this.shapes = new SHAPES(this._client, this.socket);
             this.tools = new TOOLS(this._client, this.socket);
@@ -221,24 +224,21 @@ export class HelyosServices {
             .catch(e => console.log(e));
     }
      
-    changePassword(username: string, password: string, newPassowrd: string): Promise <any> {
+    changePassword(username: string, currentPassword: string, newPassword: string): Promise <any> {
         const QUERY_FUNTCION = 'changePassword';
         const GQL_REQUEST = gql`
         mutation ${QUERY_FUNTCION}($postMessage: ChangePasswordInput!){
             ${QUERY_FUNTCION}(input: $postMessage) { 
-                jwtToken
+                clientMutationId
             }
         }
         `;
         
-        const postMessage = { clientMutationId: "not_used", ...{username, password, newPassowrd} };
+        const postMessage = { clientMutationId: "not_used", ...{username, currentPassword, newPassword} };
         console.log("postMessage",postMessage)
-        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username, password, newPassowrd} } })
+        return this._client.mutate({ mutation: GQL_REQUEST, variables: { postMessage, ...{username, currentPassword, newPassword} } })
             .then(response => {
-                if (response.data[QUERY_FUNTCION].jwtToken) {
-                    this.token = response.data[QUERY_FUNTCION].jwtToken;
-                    this.username = username;
-                }
+
                 return response.data[QUERY_FUNTCION];
             })
             .catch(e => console.log(e));
