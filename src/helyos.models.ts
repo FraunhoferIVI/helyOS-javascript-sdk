@@ -12,6 +12,7 @@ export class H_Tools{
     id: number |  string;
     yardId: number;
     status: string;
+    uuid: string;
     wpClearance: any;
     connectionStatus: string;
     name: string;
@@ -83,9 +84,19 @@ export class  H_UserAccount {
     userRole: number;
     createdAt: Date;
     modifiedAt: Date;
-
 }
 
+export class  H_InstantAction {
+    id: number;
+    yardId: number;
+    toolId: number;
+    toolUuid: string;
+    sender: string;
+    command: string;
+    status: string;
+    error: string;
+    createdAt: Date;
+}
 export class H_Yard {
     id: string | number;
     uid: string;
