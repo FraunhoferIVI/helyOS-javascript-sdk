@@ -47,6 +47,8 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                         dependOnRequests
                         createdAt
                         canceled
+                        config
+
                     }
                 }
                 }
@@ -101,6 +103,7 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     dependOnRequests
                     createdAt
                     canceled
+                    config
                   }
             }
             `;

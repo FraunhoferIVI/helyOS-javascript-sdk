@@ -155,6 +155,8 @@ export class H_ServiceRequest {
     dispatchedAt: Date;
     resultAt: Date;
     canceled: boolean;
+    config: any;
+
 }
 
 export class H_WorkProcess {
@@ -193,6 +195,7 @@ export class H_WorkProcessServicePlan {
     requestOrder: number;
     agent: number;
     serviceType: string;
+    serviceConfig: any;
     dependsOnSteps: string[];
     isResultAssignment: boolean;
 

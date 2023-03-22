@@ -31,6 +31,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     requestOrder,
                     agent,
                     serviceType,
+                    serviceConfig,
                     dependsOnSteps,
                     isResultAssignment
                     }
@@ -49,7 +50,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                 .then(response => {
                     this.wprocessFecthing = false;
                     const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                    return parseStringifiedJsonColumns(listItems, ['dependsOnSteps'])
+                    return parseStringifiedJsonColumns(listItems, ['dependsOnSteps', 'serviceConfig'])
                     
                 })
                 .catch(e => console.log(e))
@@ -70,6 +71,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                             requestOrder,
                             agent,
                             serviceType,
+                            serviceConfig,
                             dependsOnSteps,
                             isResultAssignment
                         }
@@ -78,7 +80,10 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             
             `;
 
-            const postMessage = { clientMutationId: "not_used", workProcessServicePlan: workProcessServicePlan };
+            const data = {...workProcessServicePlan};
+            delete data['__typename'];
+            stringifyJsonFields(data,['serviceConfig', 'dependsOnSteps']);
+            const postMessage = { clientMutationId: "not_used", workProcessServicePlan: data };
             console.log("postMessage",postMessage)
             return this._client.mutate({ mutation: CREATE, variables: { postMessage, workProcessServicePlan: workProcessServicePlan } })
                 .then(response => {
@@ -100,15 +105,17 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                             requestOrder,
                             agent,
                             serviceType,
+                            serviceConfig,
                             dependsOnSteps,
                             isResultAssignment
                         }
                 }
             }
             `;
-
-            delete data['__typename'];
-            const postMessage = { id: data.id, workProcessServicePlanPatch: data };
+            const patch = {...data};
+            delete patch['__typename'];
+            stringifyJsonFields(patch,['serviceConfig', 'dependsOnSteps']);
+            const postMessage = { id: data.id, workProcessServicePlanPatch: patch };
             return this._client.mutate({ mutation: UPDATE, variables: { postMessage } })
                 .then(response => {
                     console.log('create request', response);
@@ -129,6 +136,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     requestOrder,
                     agent,
                     serviceType,
+                    serviceConfig,
                     dependsOnSteps,
                     isResultAssignment
                 }
@@ -139,7 +147,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             this.getActionPromise = this._client.query({ query: QUERY_STR, variables: {workProcessServicePlanId: parseInt(workProcessServicePlanId)  } })
                 .then(response => {
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                    return data;
+                    return parseStringifiedJsonColumns([data], ['dependsOnSteps', 'serviceConfig'])[0];
                 })
                 .catch(e => console.log(e))
 
