@@ -45,7 +45,7 @@ const defaultOptions: DefaultOptions = {
 }
 
 
-export { H_Shape, H_InstantAction,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
+export { H_Shape, H_InstantAction, MAPOBJECTS,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
          H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp };
 
 
