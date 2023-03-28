@@ -38,6 +38,9 @@ import { H_Service } from '../helyos.models';
                     createdAt,
                     deletedAt,
                     modifiedAt,
+                    requireMapData,
+                    requireMissionAgentsData,
+                    requireAgentsData
                     }
                 }
                 }
@@ -79,6 +82,9 @@ import { H_Service } from '../helyos.models';
                             createdAt,
                             deletedAt,
                             modifiedAt,
+                            requireMapData,
+                            requireMissionAgentsData,
+                            requireAgentsData
                         }
                 }
             }
@@ -146,7 +152,10 @@ import { H_Service } from '../helyos.models';
                         createdAt,
                         deletedAt,
                         modifiedAt,
-                        resultTimeout
+                        resultTimeout,
+                        requireMapData,
+                        requireMissionAgentsData,
+                        requireAgentsData
                 }
             }
             `;

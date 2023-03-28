@@ -130,6 +130,9 @@ export class H_Service {
     deletedAt: Date;
     modifiedAt: Date;
     resultTimeout: number;
+    requireMapData: boolean;
+    requireMissionAgentsData: boolean;
+    requireAgentsData: boolean;
 }
 
 export class H_ServiceRequest {
