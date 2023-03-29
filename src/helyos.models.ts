@@ -177,7 +177,7 @@ export class H_WorkProcess {
     workProcessTypeName: string;
     workProcessTypeId: string;
     description: MoveToTargetDescriptor | MoveFreeDescriptor | string;
-    data: MoveToTargetDescriptor | MoveFreeDescriptor;
+    data: any;
     waitFreeAgent: boolean;
 }
 

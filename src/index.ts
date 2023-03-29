@@ -5,7 +5,7 @@ import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
 import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service, 
         H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
-import * as io from 'socket.io-client'
+import { io } from "socket.io-client";
 import { SHAPES } from "./cruds/shapes";
 import { TOOLS } from "./cruds/agents";
 import { YARD } from "./cruds/yards";
@@ -139,7 +139,7 @@ export class HelyosServices {
             transports : ['websocket'],
         }
 
-        this.socket =  io.connect( `${this.url}:${this.ports.socketPort}/`,socketOptions);
+        this.socket =  io( `${this.url}:${this.ports.socketPort}/`,socketOptions);
         const promise = new Promise((resolve, reject) => {
             const self2 = self;
             self.socket.on('connect', () =>{
