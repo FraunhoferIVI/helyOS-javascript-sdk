@@ -3,7 +3,7 @@ import { ApolloClient, DefaultOptions } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
-import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service, 
+import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue,
         H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
 import { io } from "socket.io-client";
 import { SHAPES } from "./cruds/shapes";
@@ -22,6 +22,7 @@ import { SYSTEMLOGS } from "./cruds/system_logs";
 import { USERACCOUNT } from "./cruds/userAccounts";
 import { MAPOBJECTS } from "./cruds/map_objects";
 import { INSTANT_ACTIONS } from "./cruds/instant_actions";
+import { MISSIONQUEUE } from "./cruds/mission_queue";
 
 
 const UTMConverter = require('utm-converter');
@@ -46,7 +47,7 @@ const defaultOptions: DefaultOptions = {
 
 
 export { H_Shape, H_InstantAction, MAPOBJECTS,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
-         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp };
+         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue };
 
 
 
@@ -62,6 +63,7 @@ export class HelyosServices {
     instantActions: INSTANT_ACTIONS;
     systemLogs: SYSTEMLOGS;
     assignments: ASSIGNMENT;
+    missionQueue: MISSIONQUEUE;
     workProcess: WORKPROCESS;
     workProcessServicePlan: WORKPROCESS_SERVICE_PLAN;
     workProcessType: WORKPROCESS_TYPE;
@@ -116,6 +118,7 @@ export class HelyosServices {
             this.instantActions = new INSTANT_ACTIONS(this._client, this.socket);
             this.shapes = new SHAPES(this._client, this.socket);
             this.tools = new TOOLS(this._client, this.socket);
+            this.missionQueue = new MISSIONQUEUE(this._client, this.socket);
             this.workProcess = new WORKPROCESS(this._client, this.socket);
             this.workProcessServicePlan = new WORKPROCESS_SERVICE_PLAN(this._client, this.socket);
             this.systemLogs = new SYSTEMLOGS(this._client, this.socket);

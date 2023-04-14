@@ -165,6 +165,8 @@ export class H_ServiceRequest {
 export class H_WorkProcess {
     id: string | number;
     yardId: number;
+    missionQueueId: number;
+    runOrder: number;
     toolIds: number[];
     status: string;
     createdAt: Date;
@@ -179,6 +181,20 @@ export class H_WorkProcess {
     description: MoveToTargetDescriptor | MoveFreeDescriptor | string;
     data: any;
     waitFreeAgent: boolean;
+}
+
+export class H_MissionQueue  {
+    id: string | number;
+    name: string;
+    status: string;
+    createdAt: Date;
+    modifiedAt: Date
+    startedAt: Date
+    endedAt: Date
+    schedStartAt: Date
+    schedEndAt: Date
+    description: string;
+    stopOnFailure: boolean;
 }
 
 export class H_WorkProcessType {

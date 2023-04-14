@@ -19,7 +19,55 @@ import { H_WorkProcess  } from '../helyos.models';
         this._socket = socket;
     }
 
-        list(since: number): Promise<any> {
+
+    list(condition: Partial<H_WorkProcess>, orderBy='MODIFIED_AT_DESC'): Promise<any> {
+        const QUERY_FUNTCION = 'allWorkProcesses';
+        const QUERY_STR = gql`
+        query ${QUERY_FUNTCION}($condition:WorkProcessCondition!, $orderBy:[WorkProcessesOrderBy!]){
+            ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy) {
+            edges {
+                node {
+                id,
+                status,
+                yardId,
+                missionQueueId,
+                runOrder,
+                createdAt,
+                modifiedAt,
+                startedAt,
+                endedAt,
+                schedStartAt,
+                schedEndAt,
+                processType,
+                data,
+                description,
+                workProcessTypeName,
+                toolIds,
+                waitFreeAgent
+                }
+            }
+            }
+        }
+        `;
+
+
+        if (this.wprocessFecthing) { return this.getWorkProcessPromise }
+
+        this.wprocessFecthing = true;
+        this.getWorkProcessPromise = this._client.query({ query: QUERY_STR, variables: { condition, orderBy}  })
+            .then(response => {
+                this.wprocessFecthing = false;
+                const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
+                return parseStringifiedJsonColumns(wprocesses, ['data']);
+
+            })
+            .catch(e => console.log(e))
+
+        return this.getWorkProcessPromise;
+    }
+
+
+        listRecent(since: number): Promise<any> {
             const QUERY_FUNTCION = 'allWorkProcesses';
             const QUERY_STR = gql`
             query ${QUERY_FUNTCION}($test: WorkProcessCondition!){
@@ -29,6 +77,8 @@ import { H_WorkProcess  } from '../helyos.models';
                     id,
                     status,
                     yardId,
+                    missionQueueId,
+                    runOrder,
                     createdAt,
                     modifiedAt,
                     startedAt,
@@ -76,6 +126,8 @@ import { H_WorkProcess  } from '../helyos.models';
                             id,
                             status,
                             yardId,
+                            missionQueueId,
+                            runOrder,
                             createdAt,
                             modifiedAt,
                             startedAt,
@@ -114,6 +166,8 @@ import { H_WorkProcess  } from '../helyos.models';
                         workProcess {
                             id,
                             status,
+                            missionQueueId,
+                            runOrder,
                             yardId,
                             createdAt,
                             modifiedAt,
@@ -153,6 +207,8 @@ import { H_WorkProcess  } from '../helyos.models';
                         id,
                         status,
                         yardId,
+                        missionQueueId,
+                        runOrder,
                         createdAt,
                         modifiedAt,
                         startedAt,
