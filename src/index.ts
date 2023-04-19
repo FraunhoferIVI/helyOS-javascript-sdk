@@ -3,7 +3,7 @@ import { ApolloClient, DefaultOptions } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
-import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue,
+import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject,
         H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
 import { io } from "socket.io-client";
 import { SHAPES } from "./cruds/shapes";
@@ -46,7 +46,7 @@ const defaultOptions: DefaultOptions = {
 }
 
 
-export { H_Shape, H_InstantAction, MAPOBJECTS,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
+export { H_Shape, H_InstantAction, H_MapObject,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
          H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue };
 
 
