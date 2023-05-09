@@ -33,6 +33,8 @@ export class H_Tools{
     picture: string;
     streamUrl: string;
     heartbeat: Date;
+    allowAnonymousCheckin: boolean;
+    rbmqUsername: string;
     }
 
 

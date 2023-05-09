@@ -42,6 +42,8 @@ export class TOOLS {
                         modifiedAt
                         picture
                         streamUrl
+                        allowAnonymousCheckin
+                        rbmqUsername
                         yardId
                             x
                             y
@@ -134,6 +136,8 @@ export class TOOLS {
                         isActuator,
                         name,
                         streamUrl,
+                        allowAnonymousCheckin,
+                        rbmqUsername
                     }
             }
         }
@@ -186,7 +190,7 @@ export class TOOLS {
         
         `;
 
-        
+
         const patch = {...tool};
         delete patch['__typename'];
         stringifyJsonFields(patch,['geometry', 'wpClearance']);
@@ -233,6 +237,8 @@ export class TOOLS {
                 orientation
                 orientations
                 sensors
+                allowAnonymousCheckin
+                rbmqUsername
             }
         }
         `;
@@ -263,6 +269,28 @@ export class TOOLS {
                 return data;
             })
             .catch(e => console.log(e))    
+    }
+
+
+
+    
+
+    createRabbitMQAgent(agentId:number, username:string, password:string): Promise<any> {
+        const QUERY_FUNTCION = 'registerRabbitmqAccount';
+        const QUERY_STR = gql`
+        mutation ${QUERY_FUNTCION}($inputById: RegisterRabbitmqAccountInput! ){
+            ${QUERY_FUNTCION}(input: $inputById) {
+                integer
+            }
+        }
+        `;
+
+        return  this._client.query({ query: QUERY_STR, variables: {inputById: {agentId, username, password }} })
+            .then(response => {
+                return response;
+            })
+            .catch(e => console.log(e))    
+            
     }
 
 
