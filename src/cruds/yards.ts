@@ -204,8 +204,10 @@ import { H_Yard  } from '../helyos.models';
 
         return  this._client.query({ query: SHAPE_QUERY, variables: {deletedYardById: {id:parseInt(id,10) }} })
             .then(response => {
-                const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                return data;
+                if (response.errors) {
+                    return response.errors[0];
+                }
+                return response;
             })
             .catch(e => {
                     console.log(e);

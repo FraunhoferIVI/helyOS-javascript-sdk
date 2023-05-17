@@ -168,9 +168,9 @@ import { H_UserAccount  } from '../helyos.models';
     }
 
     delete(id): Promise<any> {
-        const QUERY_FUNTCION = 'deleteuserAccountById';
+        const QUERY_FUNTCION = 'deleteUserAccountById';
         const SHAPE_QUERY = gql`
-        mutation ${QUERY_FUNTCION}($deleteduserAccountById:  DeleteuserAccountByIdInput! ){
+        mutation ${QUERY_FUNTCION}($deleteduserAccountById:  DeleteUserAccountByIdInput! ){
             ${QUERY_FUNTCION}(input: $deleteduserAccountById) {
                 deletedUserAccountId
             }
