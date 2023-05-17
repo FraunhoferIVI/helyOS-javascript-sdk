@@ -44,6 +44,7 @@ export class TOOLS {
                         streamUrl
                         allowAnonymousCheckin
                         rbmqUsername
+                        acknowledgeReservation
                         yardId
                             x
                             y
@@ -137,7 +138,8 @@ export class TOOLS {
                         name,
                         streamUrl,
                         allowAnonymousCheckin,
-                        rbmqUsername
+                        rbmqUsername,
+                        acknowledgeReservation
                     }
             }
         }
@@ -239,6 +241,7 @@ export class TOOLS {
                 sensors
                 allowAnonymousCheckin
                 rbmqUsername
+                acknowledgeReservation
             }
         }
         `;

@@ -35,6 +35,7 @@ export class H_Tools{
     heartbeat: Date;
     allowAnonymousCheckin: boolean;
     rbmqUsername: string;
+    acknowledgeReservation: boolean;
     }
 
 

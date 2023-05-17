@@ -61,7 +61,10 @@ import { H_WorkProcess  } from '../helyos.models';
                 return parseStringifiedJsonColumns(wprocesses, ['data']);
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+                });
 
         return this.getWorkProcessPromise;
     }
@@ -111,7 +114,10 @@ import { H_WorkProcess  } from '../helyos.models';
                     return parseStringifiedJsonColumns(wprocesses, ['data']);
 
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+                });
 
             return this.getWorkProcessPromise;
         }
@@ -154,7 +160,10 @@ import { H_WorkProcess  } from '../helyos.models';
                 .then(response => {
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+                });
         }
 
 
@@ -193,7 +202,10 @@ import { H_WorkProcess  } from '../helyos.models';
                     console.log('create request', response);
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+                });
         }
 
 
@@ -231,7 +243,10 @@ import { H_WorkProcess  } from '../helyos.models';
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                    console.log(e);
+                    return e;
+                });
 
                 return getPromise;
             }
@@ -263,7 +278,10 @@ import { H_WorkProcess  } from '../helyos.models';
 
                     return actions;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+                });
 
             return getActionPromise;
         }
