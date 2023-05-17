@@ -55,7 +55,10 @@ export class GUIDELINE  {
                 return parseStringifiedJsonColumns(guidelines, ['data', 'geometry']);
                 
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getPromise;
     }
@@ -98,7 +101,10 @@ export class GUIDELINE  {
                 return parseStringifiedJsonColumns(guidelines, ['data', 'geometry']);
                 
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getPromise;
     }
@@ -137,7 +143,10 @@ export class GUIDELINE  {
             .then(response => {
                 return response.data.createGuideline.guideline;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -212,7 +221,10 @@ export class GUIDELINE  {
                 console.log('create request', response);
                 return response;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
     delete(id): Promise<any> {
@@ -230,7 +242,10 @@ export class GUIDELINE  {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

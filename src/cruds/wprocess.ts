@@ -64,7 +64,7 @@ import { H_WorkProcess  } from '../helyos.models';
             .catch(e => {
                     console.log(e);
                     return e;
-                });
+             });
 
         return this.getWorkProcessPromise;
     }

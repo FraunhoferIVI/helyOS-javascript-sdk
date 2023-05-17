@@ -51,7 +51,10 @@ import { H_Assignment } from '../helyos.models';
                 const assignments = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(assignments, ['data', 'context']);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getAssignmentsPromise;
     }
@@ -137,7 +140,10 @@ import { H_Assignment } from '../helyos.models';
                 return parseStringifiedJsonColumns([assignment], ['data', 'context'])[0];
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -178,7 +184,10 @@ import { H_Assignment } from '../helyos.models';
                 console.log('create request', response);
                 return response;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -198,7 +207,10 @@ import { H_Assignment } from '../helyos.models';
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

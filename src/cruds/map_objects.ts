@@ -47,7 +47,10 @@ export class MAPOBJECTS {
                 const mapObjects = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(mapObjects, ['metadata', 'data']);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getMapObjectsPromise;
     }
@@ -89,7 +92,10 @@ export class MAPOBJECTS {
                 const mapObjects = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(mapObjects, ['metadata', 'data']);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getMapObjectsPromise;
     }
@@ -167,7 +173,10 @@ export class MAPOBJECTS {
                 return parseStringifiedJsonColumns([mapObject], ['metadata', 'data'])[0];
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -204,7 +213,10 @@ export class MAPOBJECTS {
                 console.log('create request', response);
                 return response;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -224,7 +236,10 @@ export class MAPOBJECTS {
                     console.log('edit-delete request', response);
                     return response.data
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -251,7 +266,10 @@ export class MAPOBJECTS {
                 console.log('edit-delete request', response);
                 return response.data.updateMapObjectById.mapObject;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
     delete(mapObjectId): Promise<any> {
@@ -269,7 +287,10 @@ export class MAPOBJECTS {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

@@ -50,7 +50,10 @@ import { H_InstantAction  } from '../helyos.models';
                     return wprocesses;
 
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getInstantActionPromise;
         }
@@ -84,7 +87,10 @@ import { H_InstantAction  } from '../helyos.models';
                 .then(response => {
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -118,7 +124,10 @@ import { H_InstantAction  } from '../helyos.models';
                     console.log('create request', response);
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -148,7 +157,10 @@ import { H_InstantAction  } from '../helyos.models';
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
                 return getPromise;
             }

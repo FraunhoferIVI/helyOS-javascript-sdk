@@ -57,7 +57,10 @@ import { H_Yard  } from '../helyos.models';
                 self.yardsFecthing =  false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getYardsPromise;
     }
@@ -97,7 +100,10 @@ import { H_Yard  } from '../helyos.models';
                 .then(response => {
                     return response.data.createYard.yard;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -139,7 +145,10 @@ import { H_Yard  } from '../helyos.models';
                 console.log('update request response', response);
                 return gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'yard' );
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -175,7 +184,10 @@ import { H_Yard  } from '../helyos.models';
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getActionPromise;
     }
@@ -195,7 +207,10 @@ import { H_Yard  } from '../helyos.models';
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

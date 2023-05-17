@@ -55,7 +55,10 @@ export class SYSTEMLOGS  {
                 return logs;
                 
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getPromise;
     }
@@ -90,7 +93,10 @@ export class SYSTEMLOGS  {
             .then(response => {
                 return response.data.createSystemLog.systemLog;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 

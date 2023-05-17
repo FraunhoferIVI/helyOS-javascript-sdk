@@ -55,7 +55,10 @@ import { H_MissionQueue  } from '../helyos.models';
                 return wprocesses;
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getMissionQueuePromise;
     }
@@ -100,7 +103,10 @@ import { H_MissionQueue  } from '../helyos.models';
                     return wprocesses;
 
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getMissionQueuePromise;
         }
@@ -136,7 +142,10 @@ import { H_MissionQueue  } from '../helyos.models';
                 .then(response => {
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -170,7 +179,10 @@ import { H_MissionQueue  } from '../helyos.models';
                     console.log('create request', response);
                     return response;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -202,7 +214,10 @@ import { H_MissionQueue  } from '../helyos.models';
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
                 return getPromise;
             }
@@ -223,7 +238,10 @@ import { H_MissionQueue  } from '../helyos.models';
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         
             }
 

@@ -51,7 +51,10 @@ import { H_UserAccount  } from '../helyos.models';
                 self.userAccountsFecthing =  false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getUserAccountsPromise;
     }
@@ -84,7 +87,10 @@ import { H_UserAccount  } from '../helyos.models';
                 .then(response => {
                     return response.data.createUserAccount.userAccount;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -121,7 +127,10 @@ import { H_UserAccount  } from '../helyos.models';
                 console.log('update request response', response);
                 return gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'userAccount' );
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -150,7 +159,10 @@ import { H_UserAccount  } from '../helyos.models';
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getActionPromise;
     }
@@ -170,7 +182,10 @@ import { H_UserAccount  } from '../helyos.models';
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

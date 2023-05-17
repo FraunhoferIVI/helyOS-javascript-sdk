@@ -46,7 +46,7 @@ const defaultOptions: DefaultOptions = {
 }
 
 
-export { H_Shape, H_InstantAction, H_MapObject,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
+export { H_MapObject, H_Shape, H_InstantAction, MAPOBJECTS,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
          H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue };
 
 
@@ -183,7 +183,10 @@ export class HelyosServices {
             .then(response => {
                 return response.data[QUERY_FUNTCION].user;
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
     }
 
  
@@ -207,7 +210,10 @@ export class HelyosServices {
                 }
                 return response.data[QUERY_FUNTCION];
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
     }
 
@@ -227,7 +233,10 @@ export class HelyosServices {
             .then(response => {
                 return response.data[QUERY_FUNTCION];
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
     }
      
     changePassword(username: string, currentPassword: string, newPassword: string): Promise <any> {
@@ -247,7 +256,10 @@ export class HelyosServices {
 
                 return response.data[QUERY_FUNTCION];
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
     }
 
@@ -267,7 +279,10 @@ export class HelyosServices {
             .then(response => {
                 return response.data[QUERY_FUNTCION];
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
     }
 
 
@@ -293,7 +308,10 @@ export class HelyosServices {
                 }
                 return{msg:'token invalidated'};
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
     }
 

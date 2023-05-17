@@ -55,7 +55,10 @@ export class SHAPES {
                 const shapes = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(shapes, ['geometry', 'data']);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getShapesPromise;
     }
@@ -100,7 +103,10 @@ export class SHAPES {
                 const shapes = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(shapes, ['geometry', 'data']);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getShapesPromise;
     }
@@ -183,7 +189,10 @@ export class SHAPES {
                 return parseStringifiedJsonColumns([shape], ['geometry', 'data'])[0];
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -222,7 +231,10 @@ export class SHAPES {
                 console.log('create request', response);
                 return response;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -242,7 +254,10 @@ export class SHAPES {
                     console.log('edit-delete request', response);
                     return response.data
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -269,7 +284,10 @@ export class SHAPES {
                 console.log('edit-delete request', response);
                 return response.data.updateShapeById.shape;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
     delete(shapeId): Promise<any> {
@@ -287,7 +305,10 @@ export class SHAPES {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 

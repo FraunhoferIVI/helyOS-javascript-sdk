@@ -65,7 +65,10 @@ export class TOOLS {
                 const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(listItems, ['sensors', 'geometry']);
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getToolsPromise;
     }
@@ -113,7 +116,10 @@ export class TOOLS {
                 const toolposes = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return toolposes;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
         return this.getToolPosesPromise;
     }
@@ -155,7 +161,10 @@ export class TOOLS {
                 const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'wpClearance'])[0];
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -204,7 +213,10 @@ export class TOOLS {
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry'])[0];
 
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 
 
@@ -252,7 +264,10 @@ export class TOOLS {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'wpClearance'])[0];
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
     }
 
@@ -271,7 +286,10 @@ export class TOOLS {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
             })
-            .catch(e => console.log(e))    
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })    
     }
 
 
@@ -292,7 +310,10 @@ export class TOOLS {
             .then(response => {
                 return response;
             })
-            .catch(e => console.log(e))    
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })    
             
     }
 

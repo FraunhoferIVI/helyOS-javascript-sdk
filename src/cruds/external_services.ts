@@ -56,7 +56,10 @@ import { H_Service } from '../helyos.models';
                     this.fetching = false;
                     return  gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getExtServicesPromise;
         }
@@ -97,7 +100,10 @@ import { H_Service } from '../helyos.models';
                 .then(response => {
                     return gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'service' );
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -129,7 +135,10 @@ import { H_Service } from '../helyos.models';
                     console.log('create request', response);
                     return gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'service' );
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
         }
 
 
@@ -166,7 +175,10 @@ import { H_Service } from '../helyos.models';
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getActionPromise;
         }
@@ -187,7 +199,10 @@ import { H_Service } from '../helyos.models';
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getActionPromise;
         }

@@ -64,7 +64,10 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     this.fetching = false;
                     return  gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getExtServicesPromise;
         }
@@ -114,7 +117,10 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getActionPromise;
         }
@@ -135,7 +141,10 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e);
+                    return e;
+             })
 
             return this.getActionPromise;
         }

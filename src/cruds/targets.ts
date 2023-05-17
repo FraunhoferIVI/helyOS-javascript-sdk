@@ -53,7 +53,10 @@ export class TARGET  {
                 self.targetsFecthing = false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             });
 
         return this.getTargetsPromise;
     }
@@ -87,7 +90,10 @@ export class TARGET  {
             .then(response => {
                 return response.data.createTarget.target;
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                    console.log(e);
+                    return e;
+             })
     }
 }
 
