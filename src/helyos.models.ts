@@ -36,6 +36,7 @@ export class H_Tools{
     allowAnonymousCheckin: boolean;
     rbmqUsername: string;
     acknowledgeReservation: boolean;
+    protocol: 'AMQP' | 'MQTT';
     }
 
 

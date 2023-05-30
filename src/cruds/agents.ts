@@ -45,6 +45,7 @@ export class TOOLS {
                         allowAnonymousCheckin
                         rbmqUsername
                         acknowledgeReservation
+                        protocol
                         yardId
                             x
                             y
@@ -145,7 +146,8 @@ export class TOOLS {
                         streamUrl,
                         allowAnonymousCheckin,
                         rbmqUsername,
-                        acknowledgeReservation
+                        acknowledgeReservation,
+                        protocol
                     }
             }
         }
@@ -190,6 +192,7 @@ export class TOOLS {
                     picture
                     streamUrl
                     yardId
+                    protocol
                         x
                         y
                         orientation
@@ -254,6 +257,7 @@ export class TOOLS {
                 allowAnonymousCheckin
                 rbmqUsername
                 acknowledgeReservation
+                protocol
             }
         }
         `;
