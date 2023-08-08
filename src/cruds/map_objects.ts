@@ -139,7 +139,7 @@ export class MAPOBJECTS {
         const postMessage = { clientMutationId: "not_used", mapObject: postData };
         return this._client.mutate({ mutation: MAPOBJECT_CREATE, variables: { postMessage, mapObject: postData } })
             .then(response => {
-                return [response.data[QUERY_FUNTCION].mapObject];  // 30.09.2020: I don't remember why I am returning an one-element array here. Carlos
+                return response.data[QUERY_FUNTCION].mapObject;
             })
             .catch(e => console.log("postMapObject called by" + this.create.caller, e))
     }
@@ -210,7 +210,6 @@ export class MAPOBJECTS {
 
         return this._client.mutate({ mutation: MAPOBJECT_UPDATE, variables: { postMessage, mapObject: patch } })
             .then(response => {
-                console.log('create request', response);
                 return response;
             })
             .catch(e => {

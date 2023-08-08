@@ -85,7 +85,7 @@ import { H_InstantAction  } from '../helyos.models';
             console.log("postMessage",postMessage)
             return this._client.mutate({ mutation: CREATE, variables: { postMessage, instantAction: instantAction } })
                 .then(response => {
-                    return response;
+                    return response.data.createInstantAction.instantAction;
                 })
                 .catch(e => {
                     console.log(e);

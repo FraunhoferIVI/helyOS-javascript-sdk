@@ -158,7 +158,7 @@ import { H_WorkProcess  } from '../helyos.models';
             console.log("postMessage",postMessage)
             return this._client.mutate({ mutation: CREATE, variables: { postMessage, workProcess: workProcess } })
                 .then(response => {
-                    return response;
+                    return response.data.createWorkProcess.workProcess;
                 })
                 .catch(e => {
                     console.log(e);

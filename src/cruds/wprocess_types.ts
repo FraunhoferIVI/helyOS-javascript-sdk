@@ -85,7 +85,7 @@ import { H_WorkProcessType } from '../helyos.models';
             const postMessage = { clientMutationId: "not_used", workProcessType: patch };
             return this._client.mutate({ mutation: CREATE, variables: { postMessage, workProcessType: workProcessType } })
                 .then(response => {
-                    return response;
+                    return response.data.createWorkProcessType.workProcessType;
                 })
                 .catch(e => {
                     console.log(e);
