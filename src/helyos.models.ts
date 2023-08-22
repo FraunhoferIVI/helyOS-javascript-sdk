@@ -40,6 +40,14 @@ export class H_Tools{
     }
 
 
+export class H_ToolInterconnection {
+    id: number;
+    leaderId: number;
+    followerId: number;
+    connectionGeometry: any;
+    createdAt: Date;    
+}
+
 export class ToolPose {
     id: number | string; 
     x: number;

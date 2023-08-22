@@ -3,7 +3,7 @@ import { ApolloClient, DefaultOptions } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
-import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject,
+import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject, H_ToolInterconnection,
         H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
 import { io } from "socket.io-client";
 import { SHAPES } from "./cruds/shapes";
@@ -23,6 +23,7 @@ import { USERACCOUNT } from "./cruds/userAccounts";
 import { MAPOBJECTS } from "./cruds/map_objects";
 import { INSTANT_ACTIONS } from "./cruds/instant_actions";
 import { MISSIONQUEUE } from "./cruds/mission_queue";
+import { TOOLS_INTERCONNECTIONS } from "./cruds/tools_interconnections";
 
 
 const UTMConverter = require('utm-converter');
@@ -46,8 +47,8 @@ const defaultOptions: DefaultOptions = {
 }
 
 
-export { H_MapObject, H_Shape, H_InstantAction, MAPOBJECTS,  H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
-         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue };
+export { H_MapObject, H_Shape, H_InstantAction, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
+         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue, H_ToolInterconnection };
 
 
 
@@ -70,6 +71,7 @@ export class HelyosServices {
     extServices: EXTERNALSERVICES;
     guidelines: GUIDELINE;
     servciceRequests: SERVICEREQUESTS;
+    toolsInterconnections: TOOLS_INTERCONNECTIONS;
 
     public connectionId: number;
     public connected: boolean = false;
@@ -129,6 +131,7 @@ export class HelyosServices {
             this.guidelines = new GUIDELINE(this._client, this.socket);
             this.assignments = new ASSIGNMENT(this._client, this.socket);
             this.servciceRequests = new SERVICEREQUESTS(this._client, this.socket);
+            this.toolsInterconnections = new TOOLS_INTERCONNECTIONS(this._client, this.socket)
 
         } else {
             console.log('web socket is not connected; check websocket url and port or try to login (username, password) again.')
