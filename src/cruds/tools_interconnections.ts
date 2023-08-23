@@ -84,7 +84,7 @@ export class TOOLS_INTERCONNECTIONS {
         stringifyJsonFields(patch,['connectionGeometry']);
         const postMessage = { id: tool.id, toolPatch: patch };
 
-        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, tool: patch } })
+        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, toolsInterconnection: patch } })
             .then(response => {
                 const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
                 return parseStringifiedJsonColumns([data], [ 'connectionGeometry'])[0];
@@ -117,11 +117,11 @@ export class TOOLS_INTERCONNECTIONS {
         const patch = {...tool};
         delete patch['__typename'];
         stringifyJsonFields(patch,['connectionGeometry']);
-        const postMessage = { clientMutationId: "not_used", tool: patch };
+        const postMessage = { clientMutationId: "not_used", toolsInterconnection: patch };
 
-        return this._client.mutate({ mutation: CREATE, variables: { postMessage, tool: patch } })
+        return this._client.mutate({ mutation: CREATE, variables: { postMessage, toolsInterconnection: patch } })
             .then(response => {
-                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
+                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'toolsInterconnection' );
                 return parseStringifiedJsonColumns([data], [ 'connectionGeometry'])[0];
 
             })
