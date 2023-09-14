@@ -40,6 +40,7 @@ export class TOOLS {
                         createdAt
                         isActuator
                         modifiedAt
+                        msgPerSec
                         picture
                         streamUrl
                         allowAnonymousCheckin
@@ -245,6 +246,7 @@ export class TOOLS {
                 createdAt
                 isActuator
                 modifiedAt
+                msgPerSec
                 picture
                 streamUrl
                 publicKey
