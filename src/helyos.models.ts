@@ -31,6 +31,7 @@ export class H_Tools{
     orientations?: number[];
     sensors: any;
     msgPerSec: number;
+    updtPerSec: number;
     picture: string;
     streamUrl: string;
     heartbeat: Date;
