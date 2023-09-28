@@ -28,10 +28,6 @@ import { TOOLS_INTERCONNECTIONS } from "./cruds/tools_interconnections";
 
 const UTMConverter = require('utm-converter');
 
-const socketOptions = {
-    transports : ['websocket'],
-}
-
 
 ///////////////////////// GraphQL Setup/////////////////////////
 
@@ -143,7 +139,8 @@ export class HelyosServices {
         const self = this;
         const socketOptions = {
             transports : ['websocket'],
-        }
+            auth: {token: this.token}
+        };
 
         this.socket =  io( `${this.url}:${this.ports.socketPort}/`,socketOptions);
         const promise = new Promise((resolve, reject) => {

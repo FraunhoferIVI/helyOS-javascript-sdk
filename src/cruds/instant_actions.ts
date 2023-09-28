@@ -23,7 +23,7 @@ import { H_InstantAction  } from '../helyos.models';
             const QUERY_FUNTCION = 'allINSTANT_ACTIONS';
             const QUERY_STR = gql`
             query ${QUERY_FUNTCION}($condition: InstantActionCondition!){
-                ${QUERY_FUNTCION}(condition: $condition, orderBy: ID_AT_DESC) {
+                ${QUERY_FUNTCION}(condition: $condition, orderBy: ID_DESC) {
                 edges {
                     node {
                     id,

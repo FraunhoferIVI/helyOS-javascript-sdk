@@ -1,6 +1,6 @@
 {
   "name": "helyosjs-sdk",
-  "version": "0.6.7",
+  "version": "0.7.0",
   "description": "Comunication with helyos postgress database using graphql interface",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,6 +32,7 @@
     "typescript": "^4.0"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.3.7",
     "apollo-client": "^2.4.4",
     "apollo-link": "^1.2.3",
     "apollo-link-context": "^1.0.9",

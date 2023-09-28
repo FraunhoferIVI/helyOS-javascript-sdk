@@ -1,11 +1,6 @@
 import gql from "graphql-tag";
 import { ApolloClient, DefaultOptions } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-import { setContext } from 'apollo-link-context';
 import { H_Shape} from '../helyos.models';
-import * as io from 'socket.io-client'
-import CheapRuler from "cheap-ruler";
 import { gqlJsonResponseHandler, parseStringifiedJsonColumns, stringifyJsonFields } from "../helyos.helpers";
 
 
