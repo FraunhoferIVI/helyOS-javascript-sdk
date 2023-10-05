@@ -19,11 +19,11 @@ export class TOOLS {
     }
 
     
-    list(condition: Partial<H_Tools>={}): Promise<any> {
+    list(condition: Partial<H_Tools>={},first=100, offset=0, orderBy='ID_ASC'): Promise<any> {
         const QUERY_FUNTCION = 'allTools';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($condition: ToolCondition!){
-            ${QUERY_FUNTCION}(condition: $condition) {
+        query ${QUERY_FUNTCION}($condition: ToolCondition!, $orderBy:[ToolsOrderBy!], $first:Int, $offset: Int){
+            ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy,  first:$first, offset:$offset) {
                 edges {
                     node {
                         id,
@@ -62,7 +62,9 @@ export class TOOLS {
 
         this.toolFecthing = true;
         const self = this;
-        this.getToolsPromise= this._client.query({ query: QUERY_STR, variables: { condition: condition } })
+        this.getToolsPromise= this._client.query({ query: QUERY_STR, variables: { condition, first,
+                                                                                            orderBy: orderBy,
+                                                                                            offset } })
             .then(response => {
                 self.toolFecthing =  false;
                 const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);

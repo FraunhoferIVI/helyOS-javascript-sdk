@@ -9,7 +9,7 @@ import { H_WorkProcess  } from '../helyos.models';
 
  export class WORKPROCESS {
     public wprocessFecthing: boolean;
-    public getWorkProcessPromise;
+    public getPromise;
     public getActionPromise;
     private _client:  ApolloClient<any>;
     private _socket;
@@ -20,11 +20,11 @@ import { H_WorkProcess  } from '../helyos.models';
     }
 
 
-    list(condition: Partial<H_WorkProcess>, orderBy='MODIFIED_AT_DESC'): Promise<any> {
+    list(condition: Partial<H_WorkProcess>, first=100, offset=0, orderBy='ID_DESC'): Promise<any> {
         const QUERY_FUNTCION = 'allWorkProcesses';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($condition:WorkProcessCondition!, $orderBy:[WorkProcessesOrderBy!]){
-            ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy) {
+        query ${QUERY_FUNTCION}($condition:WorkProcessCondition!, $orderBy:[WorkProcessesOrderBy!], $first:Int, $offset: Int){
+            ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy, first:$first, offset:$offset) {
             edges {
                 node {
                 id,
@@ -51,10 +51,12 @@ import { H_WorkProcess  } from '../helyos.models';
         `;
 
 
-        if (this.wprocessFecthing) { return this.getWorkProcessPromise }
+        if (this.wprocessFecthing) { return this.getPromise }
 
         this.wprocessFecthing = true;
-        this.getWorkProcessPromise = this._client.query({ query: QUERY_STR, variables: { condition, orderBy}  })
+        this.getPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+                                                                                        orderBy: orderBy,
+                                                                                        offset } })
             .then(response => {
                 this.wprocessFecthing = false;
                 const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -66,7 +68,7 @@ import { H_WorkProcess  } from '../helyos.models';
                     return e;
              });
 
-        return this.getWorkProcessPromise;
+        return this.getPromise;
     }
 
 
@@ -103,10 +105,10 @@ import { H_WorkProcess  } from '../helyos.models';
             const localTime = new Date(since);
             const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
-            if (this.wprocessFecthing) { return this.getWorkProcessPromise }
+            if (this.wprocessFecthing) { return this.getPromise }
 
             this.wprocessFecthing = true;
-            this.getWorkProcessPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
+            this.getPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
                 .then(response => {
                     this.wprocessFecthing = false;
                     console.log("update time from gql", timestampSeconds);
@@ -119,7 +121,7 @@ import { H_WorkProcess  } from '../helyos.models';
                     return e;
                 });
 
-            return this.getWorkProcessPromise;
+            return this.getPromise;
         }
 
 

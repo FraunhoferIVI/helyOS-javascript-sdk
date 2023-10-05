@@ -228,6 +228,7 @@ export class H_WorkProcessServicePlan {
     requestOrder: number;
     agent: number;
     serviceType: string;
+    waitDependenciesAssignments: boolean;
     serviceConfig: any;
     dependsOnSteps: string[];
     isResultAssignment: boolean;

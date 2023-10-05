@@ -8,7 +8,7 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
  /////////////////////////  Service Requests/////////////////////////
  export class SERVICEREQUESTS {
     public fetching: boolean;
-    public getExtServicesPromise;
+    public getPromise: Promise<any>;
     public getActionPromise;
     private _client:  ApolloClient<any>;
     private _socket;
@@ -18,11 +18,11 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
         this._socket = socket;
     }
 
-        list(condition: Partial<H_ServiceRequest>): Promise<any> {
+        list(condition: Partial<H_ServiceRequest>, first=100, offset=0, orderBy='ID_DESC'): Promise<any> {
             const QUERY_FUNTCION = 'allServiceRequests';
             const QUERY_STR = gql`
-            query ${QUERY_FUNTCION}($test:  ServiceRequestCondition!){
-                ${QUERY_FUNTCION}(condition: $test, orderBy: MODIFIED_AT_DESC ) {
+            query ${QUERY_FUNTCION}($condition:  ServiceRequestCondition!, $orderBy:[ServiceRequestsOrderBy!], $first:Int, $offset: Int){
+                ${QUERY_FUNTCION}(condition: $condition,  orderBy: $orderBy,  first:$first, offset:$offset ) {
                 edges {
                     node {
                         assignmentDispatched
@@ -56,10 +56,12 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
             `;
 
 
-            if (this.fetching) { return this.getExtServicesPromise }
+            if (this.fetching) { return this.getPromise }
 
             this.fetching = true;
-            this.getExtServicesPromise = this._client.query({ query: QUERY_STR,  variables: { test: condition}  })
+            this.getPromise = this._client.query({ query: QUERY_STR,  variables: { condition, first,
+                                                                                            orderBy: orderBy,
+                                                                                            offset } })
                 .then(response => {
                     this.fetching = false;
                     return  gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -69,7 +71,7 @@ import { H_ServiceRequest, H_Service  } from '../helyos.models';
                     return e;
              })
 
-            return this.getExtServicesPromise;
+            return this.getPromise;
         }
 
 

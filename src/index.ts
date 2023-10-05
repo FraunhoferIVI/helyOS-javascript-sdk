@@ -6,7 +6,6 @@ import { setContext } from 'apollo-link-context';
 import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject, H_ToolInterconnection,
         H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
 import { io } from "socket.io-client";
-import { SHAPES } from "./cruds/shapes";
 import { TOOLS } from "./cruds/agents";
 import { YARD } from "./cruds/yards";
 import { ASSIGNMENT } from "./cruds/assignments";
@@ -14,9 +13,7 @@ import { WORKPROCESS } from "./cruds/wprocess";
 import { WORKPROCESS_TYPE } from "./cruds/wprocess_types";
 import { WORKPROCESS_SERVICE_PLAN } from "./cruds/wprocess_service_matrix";
 import { EXTERNALSERVICES } from "./cruds/external_services";
-import { GUIDELINE } from "./cruds/guidelines";
 import { SERVICEREQUESTS } from "./cruds/service_requests";
-import { TARGET } from "./cruds/targets";
 import fetch from "node-fetch";
 import { SYSTEMLOGS } from "./cruds/system_logs";
 import { USERACCOUNT } from "./cruds/userAccounts";
@@ -52,10 +49,8 @@ export { H_MapObject, H_Shape, H_InstantAction, H_ServiceRequest, H_Assignment, 
 /////////////////////// GraphQL SERVICES /////////////////////////
 export class HelyosServices {
     userAccounts: USERACCOUNT;
-    shapes: SHAPES;
     mapObjects: MAPOBJECTS;
     tools: TOOLS;
-    target: TARGET;
     yard: YARD;
     instantActions: INSTANT_ACTIONS;
     systemLogs: SYSTEMLOGS;
@@ -65,7 +60,6 @@ export class HelyosServices {
     workProcessServicePlan: WORKPROCESS_SERVICE_PLAN;
     workProcessType: WORKPROCESS_TYPE;
     extServices: EXTERNALSERVICES;
-    guidelines: GUIDELINE;
     servciceRequests: SERVICEREQUESTS;
     toolsInterconnections: TOOLS_INTERCONNECTIONS;
 
@@ -114,17 +108,14 @@ export class HelyosServices {
             this.mapObjects = new MAPOBJECTS(this._client, this.socket);
             this.userAccounts = new USERACCOUNT(this._client, this.socket);
             this.instantActions = new INSTANT_ACTIONS(this._client, this.socket);
-            this.shapes = new SHAPES(this._client, this.socket);
             this.tools = new TOOLS(this._client, this.socket);
             this.missionQueue = new MISSIONQUEUE(this._client, this.socket);
             this.workProcess = new WORKPROCESS(this._client, this.socket);
             this.workProcessServicePlan = new WORKPROCESS_SERVICE_PLAN(this._client, this.socket);
             this.systemLogs = new SYSTEMLOGS(this._client, this.socket);
             this.workProcessType = new WORKPROCESS_TYPE(this._client, this.socket);
-            this.target = new TARGET(this._client, this.socket);
             this.yard = new YARD(this._client, this.socket);
             this.extServices = new EXTERNALSERVICES(this._client, this.socket);
-            this.guidelines = new GUIDELINE(this._client, this.socket);
             this.assignments = new ASSIGNMENT(this._client, this.socket);
             this.servciceRequests = new SERVICEREQUESTS(this._client, this.socket);
             this.toolsInterconnections = new TOOLS_INTERCONNECTIONS(this._client, this.socket)

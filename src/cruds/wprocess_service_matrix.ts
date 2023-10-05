@@ -18,11 +18,11 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
         this._socket = socket;
     }
 
-        list(condition: any= {}, since=0): Promise<any> {
+        list(condition: any= {}, since=0, first=100, offset=0, orderBy='REQUEST_ORDER_ASC'): Promise<any> {
             const QUERY_FUNTCION = 'allWorkProcessServicePlans';
             const QUERY_STR = gql`
-            query ${QUERY_FUNTCION}($test: WorkProcessServicePlanCondition!){
-                ${QUERY_FUNTCION}(condition: $test) {
+            query ${QUERY_FUNTCION}($condition: WorkProcessServicePlanCondition!, $orderBy:[WorkProcessServicePlansOrderBy!], $first:Int, $offset: Int){
+                ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy,  first:$first, offset:$offset) {
                 edges {
                     node {
                     id,
@@ -31,6 +31,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     requestOrder,
                     agent,
                     serviceType,
+                    waitDependenciesAssignments,
                     serviceConfig,
                     dependsOnSteps,
                     isResultAssignment
@@ -46,7 +47,9 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             if (this.wprocessFecthing) { return this.getWorkProcessServicePlanPromise }
 
             this.wprocessFecthing = true;
-            this.getWorkProcessServicePlanPromise = this._client.query({ query: QUERY_STR, variables: { test: condition}  })
+            this.getWorkProcessServicePlanPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+                                                                                                            orderBy: orderBy,
+                                                                                                            offset } })
                 .then(response => {
                     this.wprocessFecthing = false;
                     const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -74,6 +77,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                             requestOrder,
                             agent,
                             serviceType,
+                            waitDependenciesAssignments,
                             serviceConfig,
                             dependsOnSteps,
                             isResultAssignment
@@ -111,6 +115,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                             requestOrder,
                             agent,
                             serviceType,
+                            waitDependenciesAssignments,
                             serviceConfig,
                             dependsOnSteps,
                             isResultAssignment
@@ -144,6 +149,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     step,
                     requestOrder,
                     agent,
+                    waitDependenciesAssignments
                     serviceType,
                     serviceConfig,
                     dependsOnSteps,

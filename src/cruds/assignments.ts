@@ -11,7 +11,7 @@ import { H_Assignment } from '../helyos.models';
 
  export class ASSIGNMENT {
     public assignmentFecthing: boolean;
-    public getAssignmentsPromise: Promise<any>;
+    public getPromise: Promise<any>;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -20,11 +20,11 @@ import { H_Assignment } from '../helyos.models';
         this._socket = socket;
     }
 
-    list(condition: Partial<H_Assignment>): Promise<any> {
+    list(condition: Partial<H_Assignment>, first=100, offset=0, orderBy='ID_DESC'): Promise<any> {
         const QUERY_FUNTCION = 'allAssignments';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($condition: AssignmentCondition!){
-            ${QUERY_FUNTCION}(condition: $condition) {
+        query ${QUERY_FUNTCION}($condition: AssignmentCondition!, $orderBy:[AssignmentsOrderBy!], $first:Int, $offset: Int){
+            ${QUERY_FUNTCION}(condition: $condition,orderBy: $orderBy,  first:$first, offset:$offset) {
             edges {
                 node {
                     id
@@ -45,7 +45,9 @@ import { H_Assignment } from '../helyos.models';
         `;
 
         this.assignmentFecthing = true;
-        this.getAssignmentsPromise = this._client.query({ query: QUERY_STR, variables: { condition: condition } })
+        this.getPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+                                                                                        orderBy: orderBy,
+                                                                                        offset } })
             .then(response => {
                 this.assignmentFecthing = false;
                 const assignments = gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -56,7 +58,7 @@ import { H_Assignment } from '../helyos.models';
                     return e;
              })
 
-        return this.getAssignmentsPromise;
+        return this.getPromise;
     }
 
 
