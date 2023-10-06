@@ -41,7 +41,7 @@ This library contains all necessary methods and entity types to build a front-en
 *   List and edit automatons (tools).
 *   Retrieve sensors data and work process status.
 *   Create, schedule and handle work processes.
-*   Manage and edit yards: set drivable areas and obstacles.
+*   Manage and edit yards: set drivable areas, gates, obstacles, etc.
 
 
 ### Built With
@@ -135,7 +135,7 @@ helyosService.connect()
 
 | Model | Description |
 | --- | --- |
-| `H_Tools` | Tool represents any movable device that can perform an action |
+| `H_Tools` | Tool represents a sensor or any movable device that can perform an action |
 | id: number | unique db identifcation number |
 | code: number | unique identifcation number |
 | name: string | tool name  |
@@ -152,11 +152,13 @@ helyosService.connect()
 | picture: string | base64 jpg |
 | mapData:  {origin: {lat?: number, lon?: number, zoomLevel?: number}}  | base64 jpg |
 | --- | --- |
-| `H_Shape` | Define drivable areas or obstacles inside the yard.  |
+| `H_MapObject` | Define objects in the yard map: areas or lines.  |
 | id: number | unique db identifcation number. |
 | yardId: number | associated yard.|
 | deletedAt: Date | when shape was marked deleted. |
-| geometry: {top: number, bottom: number, points: number[][]} | shape of extruded polygon |
+| type: string | type of object: "obstacle", "parking-area", "gate", etc. |
+| data: Object | user-defined arbitrary data format |
+| dataFormat: string | name of the data format |
 | --- | --- |
 | `H_WorkProcess` | Group and serialize actions to be executed by the tools. |
 | id: number | unique db identifcation number. |
@@ -168,15 +170,7 @@ helyosService.connect()
 | processType: string |status. |
 | data:  MoveToTargetDescriptor \| MoveFreeDescription | Any JSON data that describes the actions. |
 | --- | --- |
-| `H_Target` | Reference positions in the yard used by the worked process |
-| id: number | unique db identifcation number. |
-| yardId: number | associated yard.|
-| targetName: string | name of target. |
-| targetType: string | type of target. |
-| x: number | horizontal distance from yard origin (milimeters). |
-| y: number | vertical distance from yard origin (milimeters). |
-| orientation: number | target orientation angle (mili radians). |
-| --- | --- |
+
 
 
 
