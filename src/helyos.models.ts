@@ -35,8 +35,10 @@ export class H_Tools{
     picture: string;
     streamUrl: string;
     heartbeat: Date;
+    verifySignature: boolean;
     allowAnonymousCheckin: boolean;
     rbmqUsername: string;
+    publicKey: string;
     acknowledgeReservation: boolean;
     protocol: 'AMQP' | 'MQTT';
     }

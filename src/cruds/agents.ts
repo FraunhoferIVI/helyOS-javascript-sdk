@@ -149,6 +149,7 @@ export class TOOLS {
                         name,
                         streamUrl,
                         allowAnonymousCheckin,
+                         verifySignature,
                         rbmqUsername,
                         acknowledgeReservation,
                         protocol
@@ -191,6 +192,7 @@ export class TOOLS {
                     sensorsDataFormat
                     geometryDataFormat
                     isActuator
+                    verifySignature
                     createdAt
                     modifiedAt
                     picture
@@ -254,6 +256,7 @@ export class TOOLS {
                 picture
                 streamUrl
                 publicKey
+                verifySignature
                 yardId
                 x
                 y
