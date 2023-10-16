@@ -8,9 +8,8 @@ import { H_InstantAction  } from '../helyos.models';
  /////////////////////////  Work Process/////////////////////////
 
  export class INSTANT_ACTIONS {
-    public wprocessFecthing: boolean;
-    public getInstantActionPromise;
-    public getActionPromise;
+    public fetching: boolean;
+    public lastListPromise;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -41,11 +40,10 @@ import { H_InstantAction  } from '../helyos.models';
             `;
 
 
-            if (this.wprocessFecthing) { return this.getInstantActionPromise }
-            this.wprocessFecthing = true;
-            this.getInstantActionPromise = this._client.query({ query: QUERY_STR, variables: { condition: condition}  })
+            this.fetching = true;
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition: condition}  })
                 .then(response => {
-                    this.wprocessFecthing = false;
+                    this.fetching = false;
                     const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return wprocesses;
 
@@ -55,7 +53,7 @@ import { H_InstantAction  } from '../helyos.models';
                     return e;
              })
 
-            return this.getInstantActionPromise;
+            return this.lastListPromise;
         }
 
 
@@ -152,7 +150,7 @@ import { H_InstantAction  } from '../helyos.models';
             `;
 
 
-            const getPromise = this._client.query({ query: QUERY_STR, variables: {instantActionId: parseInt(instantActionId)  } })
+            return this._client.query({ query: QUERY_STR, variables: {instantActionId: parseInt(instantActionId)  } })
                     .then(response => {
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
@@ -162,7 +160,6 @@ import { H_InstantAction  } from '../helyos.models';
                     return e;
              })
 
-                return getPromise;
             }
 
 

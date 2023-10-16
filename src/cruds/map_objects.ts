@@ -7,8 +7,8 @@ import { gqlJsonResponseHandler, parseStringifiedJsonColumns, stringifyJsonField
 /////////////////////////  YARD-MAPOBJECTS /////////////////////////
 
 export class MAPOBJECTS {
-    public getPromise: boolean;
-    public getMapObjectsPromise: Promise<any>;
+    public fetching: boolean;
+    public lastListPromise: Promise<any>;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -40,12 +40,12 @@ export class MAPOBJECTS {
         }
         `;
 
-        this.getPromise = true;
-        this.getMapObjectsPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+        this.fetching = true;
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
                                                                                         orderBy: orderBy,
                                                                                         offset } })
             .then(response => {
-                this.getPromise = false;
+                this.fetching = false;
                 const mapObjects = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(mapObjects, ['metadata', 'data']);
             })
@@ -54,7 +54,7 @@ export class MAPOBJECTS {
                     return e;
              })
 
-        return this.getMapObjectsPromise;
+        return this.lastListPromise;
     }
 
 
@@ -84,12 +84,11 @@ export class MAPOBJECTS {
         const localTime = new Date(since);
         const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
-        if (this.getPromise) { return this.getMapObjectsPromise }
 
-        this.getPromise = true;
-        this.getMapObjectsPromise = this._client.query({ query: QUERY_STR, variables: { testTime: timestampSeconds } })
+        this.fetching = true;
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { testTime: timestampSeconds } })
             .then(response => {
-                this.getPromise = false;
+                this.fetching = false;
                 console.log("update time from gql", timestampSeconds);
                 const mapObjects = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(mapObjects, ['metadata', 'data']);
@@ -99,7 +98,7 @@ export class MAPOBJECTS {
                     return e;
              })
 
-        return this.getMapObjectsPromise;
+        return this.lastListPromise;
     }
 
 

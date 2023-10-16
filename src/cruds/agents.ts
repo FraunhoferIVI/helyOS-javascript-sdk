@@ -7,9 +7,8 @@ import { H_Tools } from '../helyos.models';
 /////////////////////////  TOOLS /////////////////////////
 
 export class TOOLS {
-    public getToolsPromise;
-    public getToolPosesPromise;
-    public toolFecthing: boolean;
+    public lastListPromise;
+    public fetching: boolean;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -60,13 +59,13 @@ export class TOOLS {
         }
         `;
 
-        this.toolFecthing = true;
+        this.fetching = true;
         const self = this;
-        this.getToolsPromise= this._client.query({ query: QUERY_STR, variables: { condition, first,
+        this.lastListPromise= this._client.query({ query: QUERY_STR, variables: { condition, first,
                                                                                             orderBy: orderBy,
                                                                                             offset } })
             .then(response => {
-                self.toolFecthing =  false;
+                self.fetching =  false;
                 const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(listItems, ['sensors', 'geometry']);
             })
@@ -75,7 +74,7 @@ export class TOOLS {
                     return e;
              });
 
-        return this.getToolsPromise;
+        return this.lastListPromise;
     }
 
 
@@ -115,7 +114,7 @@ export class TOOLS {
         console.log("startTime", startTime)
         console.log("endTime", endTime)
 
-        this.getToolPosesPromise = this._client.query({ query: QUERY_STR, variables: {startTime, endTime  } })
+        return this._client.query({ query: QUERY_STR, variables: {startTime, endTime  } })
             .then(response => {
                 console.log("update time from gql", startTime);
                 const toolposes = gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -126,7 +125,6 @@ export class TOOLS {
                     return e;
              })
 
-        return this.getToolPosesPromise;
     }
 
 

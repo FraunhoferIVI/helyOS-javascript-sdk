@@ -10,8 +10,8 @@ import { H_Assignment } from '../helyos.models';
  /////////////////////////  ASSIGNMENTS /////////////////////////
 
  export class ASSIGNMENT {
-    public assignmentFecthing: boolean;
-    public getPromise: Promise<any>;
+    public fetching: boolean;
+    public lastListPromise: Promise<any>;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -44,12 +44,12 @@ import { H_Assignment } from '../helyos.models';
         }
         `;
 
-        this.assignmentFecthing = true;
-        this.getPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+        this.fetching = true;
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
                                                                                         orderBy: orderBy,
                                                                                         offset } })
             .then(response => {
-                this.assignmentFecthing = false;
+                this.fetching = false;
                 const assignments = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(assignments, ['data', 'context']);
             })
@@ -58,7 +58,7 @@ import { H_Assignment } from '../helyos.models';
                     return e;
              })
 
-        return this.getPromise;
+        return this.lastListPromise;
     }
 
 

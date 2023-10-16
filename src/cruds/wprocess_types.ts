@@ -10,8 +10,8 @@ import { H_WorkProcessType } from '../helyos.models';
  /////////////////////////  WorkProcess Type/////////////////////////
 
  export class WORKPROCESS_TYPE {
-    public wprocessFecthing: boolean;
-    public getWorkProcessTypePromise;
+    public fetching: boolean;
+    public lastListPromise;
     public getActionPromise;
     private _client:  ApolloClient<any>;
     private _socket;
@@ -41,12 +41,11 @@ import { H_WorkProcessType } from '../helyos.models';
             }
             `;
 
-            if (this.wprocessFecthing) { return this.getWorkProcessTypePromise }
 
-            this.wprocessFecthing = true;
-            this.getWorkProcessTypePromise = this._client.query({ query: QUERY_STR, variables: { condition: condition }})
+            this.fetching = true;
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition: condition }})
                 .then(response => {
-                    this.wprocessFecthing = false;
+                    this.fetching = false;
                     const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return parseStringifiedJsonColumns(listItems, ['dispatchOrder', 'settings', 'extraParams'])
                     
@@ -56,7 +55,7 @@ import { H_WorkProcessType } from '../helyos.models';
                     return e;
              })
 
-            return this.getWorkProcessTypePromise;
+            return this.lastListPromise;
         }
 
 

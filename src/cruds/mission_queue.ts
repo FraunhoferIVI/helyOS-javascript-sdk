@@ -9,7 +9,7 @@ import { H_MissionQueue  } from '../helyos.models';
 
  export class MISSIONQUEUE {
     public wprocessFecthing: boolean;
-    public getMissionQueuePromise;
+    public lastListPromise;
     public getActionPromise;
     private _client:  ApolloClient<any>;
     private _socket;
@@ -45,10 +45,8 @@ import { H_MissionQueue  } from '../helyos.models';
         `;
 
 
-        if (this.wprocessFecthing) { return this.getMissionQueuePromise }
-
         this.wprocessFecthing = true;
-        this.getMissionQueuePromise = this._client.query({ query: QUERY_STR, variables: { condition, orderBy}  })
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition, orderBy}  })
             .then(response => {
                 this.wprocessFecthing = false;
                 const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -60,7 +58,7 @@ import { H_MissionQueue  } from '../helyos.models';
                     return e;
              })
 
-        return this.getMissionQueuePromise;
+        return this.lastListPromise;
     }
 
 
@@ -92,10 +90,8 @@ import { H_MissionQueue  } from '../helyos.models';
             const localTime = new Date(since);
             const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
-            if (this.wprocessFecthing) { return this.getMissionQueuePromise }
-
             this.wprocessFecthing = true;
-            this.getMissionQueuePromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
                 .then(response => {
                     this.wprocessFecthing = false;
                     console.log("update time from gql", timestampSeconds);
@@ -108,7 +104,7 @@ import { H_MissionQueue  } from '../helyos.models';
                     return e;
              })
 
-            return this.getMissionQueuePromise;
+            return this.lastListPromise;
         }
 
 
@@ -209,7 +205,7 @@ import { H_MissionQueue  } from '../helyos.models';
             `;
 
 
-            const getPromise = this._client.query({ query: QUERY_STR, variables: {missionQueueId: parseInt(missionQueueId)  } })
+            return this._client.query({ query: QUERY_STR, variables: {missionQueueId: parseInt(missionQueueId)  } })
                     .then(response => {
                         const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                         return data;
@@ -219,7 +215,6 @@ import { H_MissionQueue  } from '../helyos.models';
                     return e;
              })
 
-                return getPromise;
             }
 
 

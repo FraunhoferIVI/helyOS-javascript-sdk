@@ -7,9 +7,8 @@ import { H_ToolInterconnection } from '../helyos.models';
 /////////////////////////  TOOLS /////////////////////////
 
 export class TOOLS_INTERCONNECTIONS {
-    public getToolsPromise;
-    public getToolPosesPromise;
-    public toolFecthing: boolean;
+    public lastPromise;
+    public fetching: boolean;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -43,11 +42,11 @@ export class TOOLS_INTERCONNECTIONS {
         }
         `;
 
-        this.toolFecthing = true;
+        this.fetching = true;
         const self = this;
-        this.getToolsPromise= this._client.query({ query: QUERY_STR, variables: { condition: condition } })
+        this.lastPromise= this._client.query({ query: QUERY_STR, variables: { condition: condition } })
             .then(response => {
-                self.toolFecthing =  false;
+                this.fetching =  false;
                 const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(listItems, [ 'connectionGeometry']);
             })
@@ -56,7 +55,7 @@ export class TOOLS_INTERCONNECTIONS {
                     return e;
              });
 
-        return this.getToolsPromise;
+        return this.lastPromise;
     }
 
 

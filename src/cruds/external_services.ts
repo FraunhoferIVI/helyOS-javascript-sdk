@@ -8,8 +8,7 @@ import { H_Service } from '../helyos.models';
  /////////////////////////  External Services /////////////////////////
  export class EXTERNALSERVICES {
     public fetching: boolean;
-    public getExtServicesPromise;
-    public getActionPromise;
+    public lastListPromise;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -48,10 +47,9 @@ import { H_Service } from '../helyos.models';
             `;
 
 
-            if (this.fetching) { return this.getExtServicesPromise }
 
             this.fetching = true;
-            this.getExtServicesPromise = this._client.query({ query: QUERY_STR, variables: { test: condition}  })
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { test: condition}  })
                 .then(response => {
                     this.fetching = false;
                     return  gqlJsonResponseHandler(response, QUERY_FUNTCION);
@@ -61,7 +59,7 @@ import { H_Service } from '../helyos.models';
                     return e;
              })
 
-            return this.getExtServicesPromise;
+            return this.lastListPromise;
         }
 
 
@@ -170,7 +168,7 @@ import { H_Service } from '../helyos.models';
             `;
 
 
-            this.getActionPromise = this._client.query({ query: QUERY_STR, variables: {serviceId: parseInt(serviceId)  } })
+            return this._client.query({ query: QUERY_STR, variables: {serviceId: parseInt(serviceId)  } })
                 .then(response => {
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
@@ -180,7 +178,6 @@ import { H_Service } from '../helyos.models';
                     return e;
              })
 
-            return this.getActionPromise;
         }
 
         delete(serviceId: string ): Promise<any> {
@@ -194,7 +191,7 @@ import { H_Service } from '../helyos.models';
             `;
 
 
-            this.getActionPromise = this._client.query({ query: QUERY_STR, variables: {deletedServiceByIdInput: {id:parseInt(serviceId,10) }} })
+            return this._client.query({ query: QUERY_STR, variables: {deletedServiceByIdInput: {id:parseInt(serviceId,10) }} })
                 .then(response => {
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
@@ -204,7 +201,6 @@ import { H_Service } from '../helyos.models';
                     return e;
              })
 
-            return this.getActionPromise;
         }
 
 

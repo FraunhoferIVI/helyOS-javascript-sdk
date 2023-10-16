@@ -7,9 +7,8 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
  /////////////////////////  WorkProcess-Services Matrix /////////////////////////
 
  export class WORKPROCESS_SERVICE_PLAN {
-    public wprocessFecthing: boolean;
-    public getWorkProcessServicePlanPromise;
-    public getActionPromise;
+    public fetching: boolean;
+    public lastListPromise;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -41,17 +40,13 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             }
             `;
 
-            const localTime = new Date(since);
-            const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
-            if (this.wprocessFecthing) { return this.getWorkProcessServicePlanPromise }
-
-            this.wprocessFecthing = true;
-            this.getWorkProcessServicePlanPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+            this.fetching = true;
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
                                                                                                             orderBy: orderBy,
                                                                                                             offset } })
                 .then(response => {
-                    this.wprocessFecthing = false;
+                    this.fetching = false;
                     const listItems = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return parseStringifiedJsonColumns(listItems, ['dependsOnSteps', 'serviceConfig'])
                     
@@ -61,12 +56,13 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     return e;
              })
 
-            return this.getWorkProcessServicePlanPromise;
+            return this.lastListPromise;
         }
 
 
 
         create(workProcessServicePlan: Partial<H_WorkProcessServicePlan>): Promise<any> {
+            const QUERY_FUNCTION = 'createWorkProcessServicePlan';
             const CREATE = gql`
             mutation createWorkProcessServicePlan ($postMessage: CreateWorkProcessServicePlanInput!){
                 createWorkProcessServicePlan(input: $postMessage) {
@@ -94,7 +90,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             console.log("postMessage",postMessage)
             return this._client.mutate({ mutation: CREATE, variables: { postMessage, workProcessServicePlan: workProcessServicePlan } })
                 .then(response => {
-                    return response;
+                    return response.data[QUERY_FUNCTION].workProcessServicePlan;
                 })
                 .catch(e => {
                     console.log(e);
@@ -159,7 +155,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             `;
 
 
-            this.getActionPromise = this._client.query({ query: QUERY_STR, variables: {workProcessServicePlanId: parseInt(workProcessServicePlanId)  } })
+            return this._client.query({ query: QUERY_STR, variables: {workProcessServicePlanId: parseInt(workProcessServicePlanId)  } })
                 .then(response => {
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return parseStringifiedJsonColumns([data], ['dependsOnSteps', 'serviceConfig'])[0];
@@ -169,7 +165,6 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     return e;
              })
 
-            return this.getActionPromise;
         }
 
 
@@ -184,7 +179,7 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
             `;
 
 
-            this.getActionPromise = this._client.query({ query: QUERY_STR, variables: {deletedWorkProcessServicePlanId: {id:parseInt(workProcessServicePlanId) }} })
+            return this._client.query({ query: QUERY_STR, variables: {deletedWorkProcessServicePlanId: {id:parseInt(workProcessServicePlanId) }} })
                 .then(response => {
                     const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return data;
@@ -194,7 +189,6 @@ import { H_WorkProcessServicePlan  } from '../helyos.models';
                     return e;
              })
 
-            return this.getActionPromise;
         }
 
 }

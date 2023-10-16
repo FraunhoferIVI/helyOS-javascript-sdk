@@ -7,9 +7,9 @@ import { H_UserAccount  } from '../helyos.models';
  /////////////////////////  USERACCOUNT /////////////////////////
 
  export class USERACCOUNT {
-    public getUserAccountsPromise;
+    public lastListPromise;
     public getActionPromise;
-    public userAccountsFecthing: boolean;
+    public fetching: boolean;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -41,14 +41,12 @@ import { H_UserAccount  } from '../helyos.models';
         }
         `;
 
-        if (this.userAccountsFecthing) { return this.getUserAccountsPromise }
 
-
-        this.userAccountsFecthing = true;
+        this.fetching = true;
         const self = this;
-        this.getUserAccountsPromise= this._client.query({ query: TOOL_QUERY, variables:  { condition: condition } })
+        this.lastListPromise= this._client.query({ query: TOOL_QUERY, variables:  { condition: condition } })
             .then(response => {
-                self.userAccountsFecthing =  false;
+                self.fetching =  false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);
             })
             .catch(e => {
@@ -56,7 +54,7 @@ import { H_UserAccount  } from '../helyos.models';
                     return e;
              });
 
-        return this.getUserAccountsPromise;
+        return this.lastListPromise;
     }
 
 
@@ -154,7 +152,7 @@ import { H_UserAccount  } from '../helyos.models';
         `;
 
 
-        this.getActionPromise = this._client.query({ query: SHAPE_QUERY, variables: {userAccountId: parseInt(userAccountId)  } })
+        return this._client.query({ query: SHAPE_QUERY, variables: {userAccountId: parseInt(userAccountId)  } })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;
@@ -164,7 +162,6 @@ import { H_UserAccount  } from '../helyos.models';
                     return e;
              })
 
-        return this.getActionPromise;
     }
 
     delete(id): Promise<any> {

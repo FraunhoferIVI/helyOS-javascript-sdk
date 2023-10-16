@@ -7,9 +7,8 @@ import { H_SystemLog } from '../helyos.models';
 ////////////////////////  GUIDELINES  /////////////////////////
 
 export class SYSTEMLOGS  {
-    public fecthing: boolean;
-    public getPromise: Promise<any>;
-    public getActionPromise: Promise<any>;
+    public fetching: boolean;
+    public lastListPromise: Promise<any>;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -43,14 +42,14 @@ export class SYSTEMLOGS  {
         }
         `;
 
-        if (this.fecthing) { return this.getPromise }
 
-        const self = this;        
-        this.getPromise = this._client.query({ query: STRING_QUERY, variables: { condition, first,
+        const self = this;
+        this.fetching = true;
+        this.lastListPromise = this._client.query({ query: STRING_QUERY, variables: { condition, first,
                                                                                  orderBy: orderBy,
                                                                                  offset } })
             .then(response => {
-                self.fecthing = false;
+                this.fetching = false;
                 const logs = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return logs;
                 
@@ -60,7 +59,7 @@ export class SYSTEMLOGS  {
                     return e;
              });
 
-        return this.getPromise;
+        return this.lastListPromise;
     }
 
 
@@ -121,7 +120,7 @@ export class SYSTEMLOGS  {
         `;
 
 
-        this.getActionPromise = this._client.query({ query: SHAPE_QUERY, variables: {systemLogId: parseInt(systemLogId)  } })
+        return this._client.query({ query: SHAPE_QUERY, variables: {systemLogId: parseInt(systemLogId)  } })
             .then(response => {
                 const logs =  gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return logs[0];
@@ -131,7 +130,6 @@ export class SYSTEMLOGS  {
                 throw e;
             });
 
-        return this.getActionPromise;
     }
 
 

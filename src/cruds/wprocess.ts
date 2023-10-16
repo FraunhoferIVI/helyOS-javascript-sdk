@@ -8,9 +8,8 @@ import { H_WorkProcess  } from '../helyos.models';
  /////////////////////////  Work Process/////////////////////////
 
  export class WORKPROCESS {
-    public wprocessFecthing: boolean;
-    public getPromise;
-    public getActionPromise;
+    public fetching: boolean;
+    public lastListPromise;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -51,14 +50,13 @@ import { H_WorkProcess  } from '../helyos.models';
         `;
 
 
-        if (this.wprocessFecthing) { return this.getPromise }
 
-        this.wprocessFecthing = true;
-        this.getPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
+        this.fetching = true;
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { condition, first,
                                                                                         orderBy: orderBy,
                                                                                         offset } })
             .then(response => {
-                this.wprocessFecthing = false;
+                this.fetching = false;
                 const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(wprocesses, ['data']);
 
@@ -68,7 +66,7 @@ import { H_WorkProcess  } from '../helyos.models';
                     return e;
              });
 
-        return this.getPromise;
+        return this.lastListPromise;
     }
 
 
@@ -105,12 +103,10 @@ import { H_WorkProcess  } from '../helyos.models';
             const localTime = new Date(since);
             const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
 
-            if (this.wprocessFecthing) { return this.getPromise }
-
-            this.wprocessFecthing = true;
-            this.getPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
+            this.fetching = true;
+            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
                 .then(response => {
-                    this.wprocessFecthing = false;
+                    this.fetching = false;
                     console.log("update time from gql", timestampSeconds);
                     const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                     return parseStringifiedJsonColumns(wprocesses, ['data']);
@@ -121,7 +117,7 @@ import { H_WorkProcess  } from '../helyos.models';
                     return e;
                 });
 
-            return this.getPromise;
+            return this.lastListPromise;
         }
 
 
@@ -273,11 +269,10 @@ import { H_WorkProcess  } from '../helyos.models';
             `;
 
 
-            const getActionPromise = this._client.query({ query: QUERY_STR, variables: {workProcessId: parseInt(workProcessId)  } })
+            return this._client.query({ query: QUERY_STR, variables: {workProcessId: parseInt(workProcessId)  } })
                 .then(response => {
                     const actions = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                    actions.forEach(a=> a.data = JSON.parse(a.data));
-
+                    actions.forEach(a => a.data = a.data?  JSON.parse(a.data):null);
                     return actions;
                 })
                 .catch(e => {
@@ -285,7 +280,6 @@ import { H_WorkProcess  } from '../helyos.models';
                     return e;
                 });
 
-            return getActionPromise;
         }
 
 }

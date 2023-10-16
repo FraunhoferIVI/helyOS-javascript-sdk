@@ -22,7 +22,7 @@ export const stringifyJsonFields = (obj: any, columnNames: string[]) => {
                 obj[name] = JSON.stringify(obj[name]) as any
             } catch (error) {
                 console.error(`field ${name}: data is not JSON`);
-                obj[name] =  JSON.stringify({error: 'JSON PARSE'}) as any;
+                obj[name] =  JSON.stringify({error: 'JSON STRINGFICATION'}) as any;
             }
         }
     });
@@ -35,9 +35,12 @@ export const parseStringifiedJsonColumns = (list: any[], columnNames: string[] )
     _list.forEach(element => {
         columnNames.forEach(name => {
             try {
-                element[name] = JSON.parse(element[name]);
+                if (element[name]){
+                    element[name] = JSON.parse(element[name]);
+                }
             } catch (error) {
-                console.log("error column serializer ", error)
+                console.log(name, element[name]);
+                console.error("error column serializer ", error);
             }   
         });
     });

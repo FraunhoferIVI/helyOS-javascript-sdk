@@ -7,9 +7,9 @@ import { H_Yard  } from '../helyos.models';
  /////////////////////////  YARD /////////////////////////
 
  export class YARD {
-    public getYardsPromise;
+    public lastListPromise;
     public getActionPromise;
-    public yardsFecthing: boolean;
+    public fetching: boolean;
     private _client:  ApolloClient<any>;
     private _socket;
 
@@ -47,14 +47,13 @@ import { H_Yard  } from '../helyos.models';
         }
         `;
 
-        if (this.yardsFecthing) { return this.getYardsPromise }
 
 
-        this.yardsFecthing = true;
+        this.fetching = true;
         const self = this;
-        this.getYardsPromise= this._client.query({ query: TOOL_QUERY, variables:  { condition: condition } })
+        this.lastListPromise= this._client.query({ query: TOOL_QUERY, variables:  { condition: condition } })
             .then(response => {
-                self.yardsFecthing =  false;
+                self.fetching =  false;
                 return gqlJsonResponseHandler(response, QUERY_FUNTCION);
             })
             .catch(e => {
@@ -62,7 +61,7 @@ import { H_Yard  } from '../helyos.models';
                     return e;
              });
 
-        return this.getYardsPromise;
+        return this.lastListPromise;
     }
 
 
