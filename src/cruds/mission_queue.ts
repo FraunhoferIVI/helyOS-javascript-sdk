@@ -62,53 +62,6 @@ import { H_MissionQueue  } from '../helyos.models';
     }
 
 
-
-        listRecent(since: number): Promise<any> {
-            const QUERY_FUNTCION = 'allMissionQueues';
-            const QUERY_STR = gql`
-            query ${QUERY_FUNTCION}($test: MissionQueueCondition!){
-                ${QUERY_FUNTCION}(condition: $test, orderBy: MODIFIED_AT_DESC) {
-                edges {
-                    node {
-                    id,
-                    name,
-                    status,
-                    createdAt,
-                    modifiedAt,
-                    startedAt,
-                    endedAt,
-                    schedStartAt,
-                    schedEndAt,
-                    stopOnFailure,
-                    description,
-                    }
-                }
-                }
-            }
-            `;
-
-            const localTime = new Date(since);
-            const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
-
-            this.wprocessFecthing = true;
-            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
-                .then(response => {
-                    this.wprocessFecthing = false;
-                    console.log("update time from gql", timestampSeconds);
-                    const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                    return wprocesses;
-
-                })
-                .catch(e => {
-                    console.log(e);
-                    return e;
-             })
-
-            return this.lastListPromise;
-        }
-
-
-
         create(missionQueue: Partial<H_MissionQueue>): Promise<any> {
             const CREATE = gql`
             mutation createMissionQueue ($postMessage: CreateMissionQueueInput!){

@@ -69,60 +69,7 @@ import { H_WorkProcess  } from '../helyos.models';
         return this.lastListPromise;
     }
 
-
-        listRecent(since: number): Promise<any> {
-            const QUERY_FUNTCION = 'allWorkProcesses';
-            const QUERY_STR = gql`
-            query ${QUERY_FUNTCION}($test: WorkProcessCondition!){
-                ${QUERY_FUNTCION}(condition: $test, orderBy: MODIFIED_AT_DESC) {
-                edges {
-                    node {
-                    id,
-                    status,
-                    yardId,
-                    missionQueueId,
-                    runOrder,
-                    createdAt,
-                    modifiedAt,
-                    startedAt,
-                    endedAt,
-                    schedStartAt,
-                    schedEndAt,
-                    processType,
-                    data,
-                    description,
-                    workProcessTypeName,
-                    toolIds,
-                    waitFreeAgent
-                    }
-                }
-                }
-            }
-            `;
-
-            const localTime = new Date(since);
-            const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
-
-            this.fetching = true;
-            this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { test: {}}  })
-                .then(response => {
-                    this.fetching = false;
-                    console.log("update time from gql", timestampSeconds);
-                    const wprocesses = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                    return parseStringifiedJsonColumns(wprocesses, ['data']);
-
-                })
-                .catch(e => {
-                    console.log(e);
-                    return e;
-                });
-
-            return this.lastListPromise;
-        }
-
-
-
-        create(workProcess: Partial<H_WorkProcess>): Promise<any> {
+    create(workProcess: Partial<H_WorkProcess>): Promise<any> {
             const CREATE = gql`
             mutation createWorkProcess ($postMessage: CreateWorkProcessInput!){
                 createWorkProcess(input: $postMessage) {

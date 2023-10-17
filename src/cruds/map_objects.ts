@@ -81,15 +81,11 @@ export class MAPOBJECTS {
         }
         `;
 
-        const localTime = new Date(since);
-        const timestampSeconds = since / 1000 - localTime.getTimezoneOffset() * 60;
-
 
         this.fetching = true;
-        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { testTime: timestampSeconds } })
+        this.lastListPromise = this._client.query({ query: QUERY_STR, variables: { testTime: since } })
             .then(response => {
                 this.fetching = false;
-                console.log("update time from gql", timestampSeconds);
                 const mapObjects = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns(mapObjects, ['metadata', 'data']);
             })
