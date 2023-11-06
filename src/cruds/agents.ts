@@ -31,6 +31,7 @@ export class TOOLS {
                         name
                         code
                         toolType
+                        agentClass
                         uuid
                         dataFormat
                         sensorsDataFormat
@@ -184,6 +185,7 @@ export class TOOLS {
                     name
                     code
                     toolType
+                    agentClass
                     connectionStatus
                     uuid
                     geometry
@@ -241,6 +243,7 @@ export class TOOLS {
                 code
                 connectionStatus
                 toolType
+                agentClass
                 uuid
                 dataFormat
                 sensorsDataFormat

@@ -8,17 +8,23 @@ import { bindContext } from "optimism";
 
 export type Timestamp = number | string | Date;
 
-export class H_Tools{
+export enum AgentClass {
+    Vehicle = 'vehicle',    
+    Assistant = 'assistant',
+    Tool = 'tool'
+}
+export class H_Tools {
     id: number |  string;
     yardId: number;
     status: string;
     uuid: string;
     wpClearance: any;
     connectionStatus: string;
-    name: string;
+    name: string = 'Unnamed';
     code: string;
     toolType: string;
-    dataFormat: string;
+    agentClass: AgentClass;
+    dataFormat: string; 
     sensorsDataFormat: string;
     geometryDataFormat: string;
     geometry: any;
@@ -40,10 +46,40 @@ export class H_Tools{
     rbmqUsername: string;
     publicKey: string;
     acknowledgeReservation: boolean;
+    isActuator: boolean;
     protocol: 'AMQP' | 'MQTT';
+
+
+/*
+* Customize the default values depending on the agent class.
+*/
+    constructor(agentClass: AgentClass) {
+        this.agentClass = agentClass;
+        this.verifySignature = false; 
+        this.protocol = 'AMQP';
+
+        if (agentClass === AgentClass.Vehicle) {
+            this.allowAnonymousCheckin = true;
+            this.acknowledgeReservation = true; 
+            this.isActuator = true;
+
+        } else if (agentClass === AgentClass.Assistant) {
+            this.allowAnonymousCheckin = false;
+            this.acknowledgeReservation = false; 
+            this.isActuator = false;
+            this.dataFormat = 'none';
+
+        } else if (agentClass === AgentClass.Tool) {
+            this.allowAnonymousCheckin = true;
+            this.acknowledgeReservation = false; 
+            this.isActuator = false;
+            this.dataFormat = 'none';
+        }
     }
-
-
+}
+ 
+ 
+export class H_Agent extends H_Tools {}
 export class H_ToolInterconnection {
     id: number;
     leaderId: number;
