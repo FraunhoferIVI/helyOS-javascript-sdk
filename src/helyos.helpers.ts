@@ -1,6 +1,8 @@
 
 
 ///////////////////////// Response Handlers /////////////////////////
+const isObject = (value) => (typeof value === 'object');
+const isString = (value) => (typeof value === 'string' ||  value instanceof String)
 
 export const gqlJsonResponseHandler = (res: any, queryName: string) => {
     if (res.data[queryName].edges) {
@@ -17,7 +19,7 @@ export const gqlJsonResponseInstanceHandler = (res: any, queryName: string, enti
 
 export const stringifyJsonFields = (obj: any, columnNames: string[]) => {
     columnNames.forEach( name => {
-        if ( obj[name] && !(typeof obj[name] === 'string' ||  obj[name] instanceof String)) {
+        if ( obj[name] && !isString(obj[name])) {
             try {
                 obj[name] = JSON.stringify(obj[name]) as any
             } catch (error) {
@@ -32,16 +34,16 @@ export const stringifyJsonFields = (obj: any, columnNames: string[]) => {
 
 export const parseStringifiedJsonColumns = (list: any[], columnNames: string[] )  => {
     const _list = [...list];
-    _list.forEach(element => {
+    _list.forEach(obj => {
         columnNames.forEach(name => {
-            try {
-                if (element[name]){
-                    element[name] = JSON.parse(element[name]);
-                }
-            } catch (error) {
-                console.log(name, element[name]);
-                console.error("error column serializer ", error);
-            }   
+            if (obj[name] && !isObject(obj[name])) {
+                try {
+                    obj[name] = JSON.parse(obj[name]);
+                } catch (error) {
+                    console.log(name, obj[name]);
+                    console.error("error column serializer ", error);
+                }   
+            } 
         });
     });
 

@@ -28,6 +28,7 @@ export class H_Tools {
     sensorsDataFormat: string;
     geometryDataFormat: string;
     geometry: any;
+    factsheet: any;
     createdAt: Date;
     modifiedAt: Date;
     toolPoseId: number | string;

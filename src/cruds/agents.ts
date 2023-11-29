@@ -159,13 +159,13 @@ export class TOOLS {
 
         const patch = {...tool};
         delete patch['__typename'];
-        stringifyJsonFields(patch,['geometry', 'wpClearance']);
+        stringifyJsonFields(patch,['geometry', 'factsheet', 'wpClearance']);
         const postMessage = { id: tool.id, toolPatch: patch };
 
         return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, tool: patch } })
             .then(response => {
                 const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
-                return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'wpClearance'])[0];
+                return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'factsheet', 'wpClearance'])[0];
             })
             .catch(e => {
                     console.log(e);
@@ -213,13 +213,13 @@ export class TOOLS {
 
         const patch = {...tool};
         delete patch['__typename'];
-        stringifyJsonFields(patch,['geometry', 'wpClearance']);
+        stringifyJsonFields(patch,['geometry','factsheet', 'wpClearance']);
         const postMessage = { clientMutationId: "not_used", tool: patch };
 
         return this._client.mutate({ mutation: CREATE, variables: { postMessage, tool: patch } })
             .then(response => {
                 const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
-                return parseStringifiedJsonColumns([data], ['sensors', 'geometry'])[0];
+                return parseStringifiedJsonColumns([data], ['sensors', 'geometry','factsheet',])[0];
 
             })
             .catch(e => {
@@ -249,6 +249,7 @@ export class TOOLS {
                 sensorsDataFormat
                 geometryDataFormat
                 geometry
+                factsheet
                 createdAt
                 isActuator
                 modifiedAt
@@ -276,7 +277,7 @@ export class TOOLS {
         return this._client.query({ query: QUERY_STR, variables: {toolId: toolId } })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'wpClearance'])[0];
+                return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'factsheet','wpClearance'])[0];
             })
             .catch(e => {
                     console.log(e);
