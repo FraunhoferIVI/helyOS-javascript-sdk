@@ -139,7 +139,7 @@ import { H_Assignment } from '../helyos.models';
         return this._client.query({ query: QUERY_STR, variables: {assignmentId: parseInt(assignmentId)  } })
             .then(response => {
                 const assignment = gqlJsonResponseHandler(response, QUERY_FUNTCION);
-                return parseStringifiedJsonColumns([assignment], ['data', 'context'])[0];
+                return parseStringifiedJsonColumns([assignment], ['data', 'context', 'result'])[0];
 
             })
             .catch(e => {
