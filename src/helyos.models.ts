@@ -22,7 +22,7 @@ export class H_Tools {
     connectionStatus: string;
     name: string = 'Unnamed';
     code: string;
-    toolType: string;
+    agentType: string;
     agentClass: AgentClass;
     dataFormat: string; 
     sensorsDataFormat: string;
@@ -81,7 +81,9 @@ export class H_Tools {
  
  
 export class H_Agent extends H_Tools {}
-export class H_ToolInterconnection {
+
+
+export class H_AgentInterconnection {
     id: number;
     leaderId: number;
     followerId: number;
@@ -142,8 +144,8 @@ export class  H_UserAccount {
 export class  H_InstantAction {
     id: number;
     yardId: number;
-    toolId: number;
-    toolUuid: string;
+    agentId: number;
+    agentUuid: string;
     sender: string;
     command: string;
     status: string;
@@ -220,7 +222,7 @@ export class H_WorkProcess {
     yardId: number;
     missionQueueId: number;
     runOrder: number;
-    toolIds: number[];
+    agentIds: number[];
     status: string;
     createdAt: Date;
     modifiedAt: Date
@@ -275,13 +277,13 @@ export class H_WorkProcessServicePlan {
 }
 
 export class MoveToTargetDescriptor  {
-    toolId: string | number;
+    agentId: string | number;
     targetId?: string | number;
     targetType?: string;
 } 
 
 export class MoveFreeDescriptor  {
-    toolId: string | number;
+    agentId: string | number;
     x: number;
     y: number;
     orientation: number;
@@ -323,7 +325,7 @@ export class H_SystemLog {
     id: string | number;
     createdAt: Date;
     wprocId?: number;
-    toolUuid?: string;
+    agentUuid?: string;
     serviceType?: string;
     event: string;
     origin: string;
@@ -351,7 +353,7 @@ export class H_Assignment {
     yardId: number;
     data: any;
     workProcessId: number;
-    toolId: number;
+    agentId: number;
     status: string;
     startTimeStamp: string;
     error: string;

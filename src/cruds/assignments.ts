@@ -30,7 +30,7 @@ import { H_Assignment } from '../helyos.models';
                     id
                     yardId
                     workProcessId
-                    toolId
+                    agentId
                     status
                     startTimeStamp
                     dependOnAssignments
@@ -79,7 +79,7 @@ import { H_Assignment } from '../helyos.models';
                         yardId
                         data 
                         workProcessId
-                        toolId
+                        agentId
                         status
                         startTimeStamp
                         dependOnAssignments
@@ -121,7 +121,7 @@ import { H_Assignment } from '../helyos.models';
                 yardId
                 data 
                 workProcessId
-                toolId
+                agentId
                 status
                 startTimeStamp
                 dependOnAssignments
@@ -160,7 +160,7 @@ import { H_Assignment } from '../helyos.models';
                         yardId
                         data 
                         workProcessId
-                        toolId
+                        agentId
                         status
                         startTimeStamp
                         dependOnAssignments

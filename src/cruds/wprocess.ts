@@ -41,7 +41,7 @@ import { H_WorkProcess  } from '../helyos.models';
                 data,
                 description,
                 workProcessTypeName,
-                toolIds,
+                agentIds,
                 waitFreeAgent
                 }
             }
@@ -89,7 +89,7 @@ import { H_WorkProcess  } from '../helyos.models';
                             description,
                             data,
                             workProcessTypeName,
-                            toolIds,
+                            agentIds,
                             waitFreeAgent
                         }
                 }
@@ -129,7 +129,7 @@ import { H_WorkProcess  } from '../helyos.models';
                             data,
                             workProcessTypeName,
                             description,
-                            toolIds,
+                            agentIds,
                             yardId,
                             waitFreeAgent
 
@@ -176,7 +176,7 @@ import { H_WorkProcess  } from '../helyos.models';
                         data,
                         description,
                         workProcessTypeName,
-                        toolIds,
+                        agentIds,
                         waitFreeAgent
                 }
             }

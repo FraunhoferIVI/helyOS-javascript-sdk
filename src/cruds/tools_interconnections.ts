@@ -2,11 +2,11 @@ import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 
 import { gqlJsonResponseHandler, gqlJsonResponseInstanceHandler, parseStringifiedJsonColumns, stringifyJsonFields } from "../helyos.helpers";
-import { H_ToolInterconnection } from '../helyos.models';
+import { H_AgentInterconnection } from '../helyos.models';
 
-/////////////////////////  TOOLS /////////////////////////
+/////////////////////////  AGENTS_INTERCONNECTIONS /////////////////////////
 
-export class TOOLS_INTERCONNECTIONS {
+export class AGENTS_INTERCONNECTIONS {
     public lastPromise;
     public fetching: boolean;
     private _client:  ApolloClient<any>;
@@ -18,10 +18,10 @@ export class TOOLS_INTERCONNECTIONS {
     }
 
     
-    list(condition: Partial<H_ToolInterconnection>={}): Promise<any> {
-        const QUERY_FUNTCION = 'allToolsInterconnections';
+    list(condition: Partial<H_AgentInterconnection>={}): Promise<any> {
+        const QUERY_FUNTCION = 'allAgentsInterconnections';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($condition: ToolsInterconnectionCondition!){
+        query ${QUERY_FUNTCION}($condition: AgentsInterconnectionCondition!){
             ${QUERY_FUNTCION}(condition: $condition) {
                 edges {
                     node {
@@ -30,9 +30,9 @@ export class TOOLS_INTERCONNECTIONS {
                       followerId
                       connectionGeometry
                       createdAt
-                      toolByFollowerId {
+                      agentByFollowerId {
                         id
-                        toolType
+                        agentType
                         name
                         uuid
                       }
@@ -62,12 +62,12 @@ export class TOOLS_INTERCONNECTIONS {
 
 
 
-    patch(tool: Partial<H_ToolInterconnection>): Promise<any> {
-        const QUERY_FUNTCION = 'updateToolsInterconnectionById';
+    patch(tool: Partial<H_AgentInterconnection>): Promise<any> {
+        const QUERY_FUNTCION = 'updateAgentsInterconnectionById';
         const TOOL_UPDATE = gql`
-        mutation updateToolsInterconnectionById ($postMessage: UpdateToolsInterconnectionByIdInput!){
-            updateToolsInterconnectionById(input: $postMessage) {
-                    toolsInterconnection {
+        mutation updateAgentsInterconnectionById ($postMessage: UpdateAgentsInterconnectionByIdInput!){
+            updateAgentsInterconnectionById(input: $postMessage) {
+                    agentsInterconnection {
                         id,
                         leaderId,
                         followerId
@@ -83,9 +83,9 @@ export class TOOLS_INTERCONNECTIONS {
         stringifyJsonFields(patch,['connectionGeometry']);
         const postMessage = { id: tool.id, toolPatch: patch };
 
-        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, toolsInterconnection: patch } })
+        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, agentsInterconnection: patch } })
             .then(response => {
-                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
+                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'agentsInterconnection' );
                 return parseStringifiedJsonColumns([data], [ 'connectionGeometry'])[0];
             })
             .catch(e => {
@@ -95,12 +95,12 @@ export class TOOLS_INTERCONNECTIONS {
     }
 
 
-    create(tool: Partial<H_ToolInterconnection>): Promise<any> {
-        const QUERY_FUNTCION = 'createToolsInterconnection';
+    create(tool: Partial<H_AgentInterconnection>): Promise<any> {
+        const QUERY_FUNTCION = 'createAgentsInterconnection';
         const CREATE = gql`
-        mutation ${QUERY_FUNTCION} ($postMessage: CreateToolsInterconnectionInput!){
-            createToolsInterconnection(input: $postMessage) {
-                toolsInterconnection {
+        mutation ${QUERY_FUNTCION} ($postMessage: CreateAgentsInterconnectionInput!){
+            createAgentsInterconnection(input: $postMessage) {
+                agentsInterconnection {
                     id
                     leaderId
                     followerId
@@ -116,11 +116,11 @@ export class TOOLS_INTERCONNECTIONS {
         const patch = {...tool};
         delete patch['__typename'];
         stringifyJsonFields(patch,['connectionGeometry']);
-        const postMessage = { clientMutationId: "not_used", toolsInterconnection: patch };
+        const postMessage = { clientMutationId: "not_used", agentsInterconnection: patch };
 
-        return this._client.mutate({ mutation: CREATE, variables: { postMessage, toolsInterconnection: patch } })
+        return this._client.mutate({ mutation: CREATE, variables: { postMessage, agentsInterconnection: patch } })
             .then(response => {
-                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'toolsInterconnection' );
+                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'agentsInterconnection' );
                 return parseStringifiedJsonColumns([data], [ 'connectionGeometry'])[0];
 
             })
@@ -132,9 +132,9 @@ export class TOOLS_INTERCONNECTIONS {
 
 
     
-    get(toolId: number ): Promise<H_ToolInterconnection> {
+    get(agentId: number ): Promise<H_AgentInterconnection> {
 
-        const QUERY_FUNTCION = 'toolsInterconnectionById';
+        const QUERY_FUNTCION = 'agentsInterconnectionById';
         const QUERY_STR = gql`
         query ${QUERY_FUNTCION}($toolInterconnnectionId:  BigInt! ){
             ${QUERY_FUNTCION}(id: $toolInterconnnectionId) {
@@ -143,9 +143,9 @@ export class TOOLS_INTERCONNECTIONS {
                 followerId
                 connectionGeometry
                 createdAt
-                toolByFollowerId {
+                agentByFollowerId {
                     id
-                    toolType
+                    agentType
                     name
                     uuid
                   }
@@ -154,7 +154,7 @@ export class TOOLS_INTERCONNECTIONS {
         `;
 
 
-        return this._client.query({ query: QUERY_STR, variables: {toolId: toolId } })
+        return this._client.query({ query: QUERY_STR, variables: {id: agentId } })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns([data], [ 'connectionGeometry'])[0];
@@ -167,16 +167,16 @@ export class TOOLS_INTERCONNECTIONS {
     }
 
     delete(id): Promise<any> {
-        const QUERY_FUNTCION = 'deleteToolsInterconnectionById';
+        const QUERY_FUNTCION = 'deleteAgentsInterconnectionById';
         const QUERY_STR = gql`
-        mutation ${QUERY_FUNTCION}($deletedToolsInterconnectionById:  DeleteToolsInterconnectionByIdInput! ){
-            ${QUERY_FUNTCION}(input: $deletedToolsInterconnectionById) {
-                deletedToolsInterconnectionId
+        mutation ${QUERY_FUNTCION}($deletedAgentsInterconnectionById:  DeleteAgentsInterconnectionByIdInput! ){
+            ${QUERY_FUNTCION}(input: $deletedAgentsInterconnectionById) {
+                deletedAgentsInterconnectionId
             }
         }
         `;
 
-        return  this._client.query({ query: QUERY_STR, variables: {deletedToolsInterconnectionById: {id:parseInt(id,10) }} })
+        return  this._client.query({ query: QUERY_STR, variables: {deletedAgentsInterconnectionById: {id:parseInt(id,10) }} })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;

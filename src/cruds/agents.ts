@@ -2,11 +2,11 @@ import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 
 import { gqlJsonResponseHandler, gqlJsonResponseInstanceHandler, parseStringifiedJsonColumns, stringifyJsonFields } from "../helyos.helpers";
-import { H_Tools } from '../helyos.models';
+import { H_Agent } from '../helyos.models';
 
-/////////////////////////  TOOLS /////////////////////////
+/////////////////////////  AGENTS /////////////////////////
 
-export class TOOLS {
+export class AGENTS {
     public lastListPromise;
     public fetching: boolean;
     private _client:  ApolloClient<any>;
@@ -18,10 +18,10 @@ export class TOOLS {
     }
 
     
-    list(condition: Partial<H_Tools>={},first=100, offset=0, orderBy='ID_ASC'): Promise<any> {
-        const QUERY_FUNTCION = 'allTools';
+    list(condition: Partial<H_Agent>={},first=100, offset=0, orderBy='ID_ASC'): Promise<any> {
+        const QUERY_FUNTCION = 'allAgents';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($condition: ToolCondition!, $orderBy:[ToolsOrderBy!], $first:Int, $offset: Int){
+        query ${QUERY_FUNTCION}($condition: AgentCondition!, $orderBy:[AgentsOrderBy!], $first:Int, $offset: Int){
             ${QUERY_FUNTCION}(condition: $condition, orderBy: $orderBy,  first:$first, offset:$offset) {
                 edges {
                     node {
@@ -30,7 +30,7 @@ export class TOOLS {
                         connectionStatus
                         name
                         code
-                        toolType
+                        agentType
                         agentClass
                         uuid
                         dataFormat
@@ -97,7 +97,7 @@ export class TOOLS {
                 y,
                 orientation,
                 orientations
-                toolId,
+                agentId,
                 sensors,
                 }
             }
@@ -130,12 +130,12 @@ export class TOOLS {
 
 
 
-    patch(tool: Partial<H_Tools>): Promise<any> {
-        const QUERY_FUNTCION = 'updateToolById';
+    patch(agent: Partial<H_Agent>): Promise<any> {
+        const QUERY_FUNTCION = 'updateAgentById';
         const TOOL_UPDATE = gql`
-        mutation updateToolById ($postMessage: UpdateToolByIdInput!){
-            updateToolById(input: $postMessage) {
-                    tool {
+        mutation updateAgentById ($postMessage: UpdateAgentByIdInput!){
+            updateAgentById(input: $postMessage) {
+                    agent {
                         id,
                         picture,
                         wpClearance
@@ -157,14 +157,14 @@ export class TOOLS {
         }
         `;
 
-        const patch = {...tool};
+        const patch = {...agent};
         delete patch['__typename'];
         stringifyJsonFields(patch,['geometry', 'factsheet', 'wpClearance']);
-        const postMessage = { id: tool.id, toolPatch: patch };
+        const postMessage = { id: agent.id, agentPatch: patch };
 
-        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, tool: patch } })
+        return this._client.mutate({ mutation: TOOL_UPDATE, variables: { postMessage, agent: patch } })
             .then(response => {
-                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
+                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'agent' );
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'factsheet', 'wpClearance'])[0];
             })
             .catch(e => {
@@ -174,17 +174,17 @@ export class TOOLS {
     }
 
 
-    create(tool: Partial<H_Tools>): Promise<any> {
-        const QUERY_FUNTCION = 'createTool';
+    create(agent: Partial<H_Agent>): Promise<any> {
+        const QUERY_FUNTCION = 'createAgent';
         const CREATE = gql`
-        mutation createTool ($postMessage: CreateToolInput!){
-            createTool(input: $postMessage) {
-                tool {
+        mutation createAgent ($postMessage: CreateAgentInput!){
+            createAgent(input: $postMessage) {
+                agent {
                     id
                     status
                     name
                     code
-                    toolType
+                    agentType
                     agentClass
                     connectionStatus
                     uuid
@@ -199,11 +199,11 @@ export class TOOLS {
                     streamUrl
                     yardId
                     protocol
-                        x
-                        y
-                        orientation
-                        orientations
-                        sensors
+                    x
+                    y
+                    orientation
+                    orientations
+                    sensors
                 }
             }
         }
@@ -211,14 +211,14 @@ export class TOOLS {
         `;
 
 
-        const patch = {...tool};
+        const patch = {...agent};
         delete patch['__typename'];
         stringifyJsonFields(patch,['geometry','factsheet', 'wpClearance']);
-        const postMessage = { clientMutationId: "not_used", tool: patch };
+        const postMessage = { clientMutationId: "not_used", agent: patch };
 
-        return this._client.mutate({ mutation: CREATE, variables: { postMessage, tool: patch } })
+        return this._client.mutate({ mutation: CREATE, variables: { postMessage, agent: patch } })
             .then(response => {
-                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'tool' );
+                const data = gqlJsonResponseInstanceHandler(response, QUERY_FUNTCION,'agent' );
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry','factsheet',])[0];
 
             })
@@ -230,19 +230,19 @@ export class TOOLS {
 
 
     
-    get(toolId: number ): Promise<H_Tools> {
+    get(agentId: number ): Promise<H_Agent> {
 
-        const QUERY_FUNTCION = 'toolById';
+        const QUERY_FUNTCION = 'agentById';
         const QUERY_STR = gql`
-        query ${QUERY_FUNTCION}($toolId:  BigInt! ){
-            ${QUERY_FUNTCION}(id: $toolId) {
+        query ${QUERY_FUNTCION}($agentId:  BigInt! ){
+            ${QUERY_FUNTCION}(id: $agentId) {
                 id,
                 status
                 wpClearance
                 name
                 code
                 connectionStatus
-                toolType
+                agentType
                 agentClass
                 uuid
                 dataFormat
@@ -274,7 +274,7 @@ export class TOOLS {
         `;
 
 
-        return this._client.query({ query: QUERY_STR, variables: {toolId: toolId } })
+        return this._client.query({ query: QUERY_STR, variables: {agentId: agentId } })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return parseStringifiedJsonColumns([data], ['sensors', 'geometry', 'factsheet','wpClearance'])[0];
@@ -287,16 +287,16 @@ export class TOOLS {
     }
 
     delete(id): Promise<any> {
-        const QUERY_FUNTCION = 'deleteToolById';
+        const QUERY_FUNTCION = 'deleteAgentById';
         const QUERY_STR = gql`
-        mutation ${QUERY_FUNTCION}($deletedToolById:  DeleteToolByIdInput! ){
-            ${QUERY_FUNTCION}(input: $deletedToolById) {
-                deletedToolId
+        mutation ${QUERY_FUNTCION}($deletedAgentById:  DeleteAgentByIdInput! ){
+            ${QUERY_FUNTCION}(input: $deletedAgentById) {
+                deletedAgentId
             }
         }
         `;
 
-        return  this._client.query({ query: QUERY_STR, variables: {deletedToolById: {id:parseInt(id,10) }} })
+        return  this._client.query({ query: QUERY_STR, variables: {deletedAgentById: {id:parseInt(id,10) }} })
             .then(response => {
                 const data = gqlJsonResponseHandler(response, QUERY_FUNTCION);
                 return data;

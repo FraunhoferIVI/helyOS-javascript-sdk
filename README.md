@@ -38,7 +38,7 @@ This library contains all necessary methods and entity types to build a front-en
 ### List of features
 
 *   Log in as administrator or regular user.
-*   List and edit automatons (tools).
+*   List and edit automatons (agents).
 *   Retrieve sensors data and work process status.
 *   Create, schedule and handle work processes.
 *   Manage and edit yards: set drivable areas, gates, obstacles, etc.
@@ -61,7 +61,7 @@ $ npm i helyosjs-sdk  --save
 ### Usage
 
 ```js 
-import { HelyosServices, H_Tools  } from 'helyosjs-sdk';
+import { HelyosServices, H_Agents  } from 'helyosjs-sdk';
 
 const helyosService = new HelyosServices('http://localhost', {socketPort:'5002', gqlPort:'5000'});
 
@@ -73,21 +73,21 @@ const password = 'password';
 .then( connected => console.log(connected));;
 
 function listTools {
-    return helyosService.tools.list(0)
-    .then((tools: H_Tools[]) => {
-        console.log(tools);
+    return helyosService.agents.list(0)
+    .then((agents: H_Agent[]) => {
+        console.log(agents);
     });
 }
 
 function editTool(patch: H_Tools) {
-    return helyosService.tools.patch(patch)
-    .then(tool => {
-        console.log(tool);
+    return helyosService.agents.patch(patch)
+    .then(agents => {
+        console.log(agents);
     )}
 }
 ```
 
-### Listening agent/tool sensors and work process status
+### Listening agent/agent sensors and work process status
 
 ```js 
 
@@ -95,12 +95,12 @@ helyosService.connect()
 .then(() => {
             const socket = helyosService.socket;
 
-            socket.on('new_tool_poses',(updates)=>{
-                console.log(updates);  // Notifications from tool sensors.
+            socket.on('new_agent_poses',(updates)=>{
+                console.log(updates);  // Notifications from agent sensors.
             });
 
-            socket.on('change_tool_status',(updates)=>{
-                console.log(updates);  // Notifications from tools working status.
+            socket.on('change_agent_status',(updates)=>{
+                console.log(updates);  // Notifications from agents working status.
             });
 
             socket.on('change_work_processes',(updates)=>{
@@ -138,15 +138,15 @@ helyosService.connect()
 | `H_Tools` | Tool represents a sensor or any movable device that can perform an action |
 | id: number | unique db identifcation number |
 | code: number | unique identifcation number |
-| name: string | tool name  |
+| name: string | agent name  |
 | picture: string | base64 jpg |
-| yardId: number | to which yard this tool is associated.|
+| yardId: number | to which yard this agent is associated.|
 | status: string | 'busy', 'free' |
 | picture: string | base64 jpg |
-| geometry: JSON |  Description of the tool geometry |
-| heartbeat: Date |  Last time tool contacted the yard base |
+| geometry: JSON |  Description of the agent geometry |
+| heartbeat: Date |  Last time agent contacted the yard base |
 | --- | --- |
-| `H_Yard` | Physical space enclosing tools in a drivable area. |
+| `H_Yard` | Physical space enclosing agents in a drivable area. |
 | id: number | unique db identifcation number |
 | name: string | yard name  |
 | picture: string | base64 jpg |
@@ -160,7 +160,7 @@ helyosService.connect()
 | data: Object | user-defined arbitrary data format |
 | dataFormat: string | name of the data format |
 | --- | --- |
-| `H_WorkProcess` | Group and serialize actions to be executed by the tools. |
+| `H_WorkProcess` | Group and serialize actions to be executed by the agents. |
 | id: number | unique db identifcation number. |
 | schedStartAt: date | date and time when the process is scheduled to start. |
 | schedEndAt: date | date and time when the process is predicted to end. |

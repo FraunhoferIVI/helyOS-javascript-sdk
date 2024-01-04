@@ -3,10 +3,10 @@ import { ApolloClient, DefaultOptions } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from 'apollo-link-context';
-import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject, H_ToolInterconnection,
-        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction } from './helyos.models';
+import { H_Shape, H_Target, H_WorkProcess, H_Tools, H_Yard, H_Action, GeoPoint, Timestamp, H_Service,  H_MissionQueue, H_MapObject, H_AgentInterconnection,
+        H_WorkProcessType, H_WorkProcessServicePlan, H_Guideline, H_Assignment, H_ServiceRequest, H_SystemLog, H_UserAccount, H_InstantAction, H_Agent } from './helyos.models';
 import { io } from "socket.io-client";
-import { TOOLS } from "./cruds/agents";
+import { AGENTS } from "./cruds/agents";
 import { YARD } from "./cruds/yards";
 import { ASSIGNMENT } from "./cruds/assignments";
 import { WORKPROCESS } from "./cruds/wprocess";
@@ -20,7 +20,7 @@ import { USERACCOUNT } from "./cruds/userAccounts";
 import { MAPOBJECTS } from "./cruds/map_objects";
 import { INSTANT_ACTIONS } from "./cruds/instant_actions";
 import { MISSIONQUEUE } from "./cruds/mission_queue";
-import { TOOLS_INTERCONNECTIONS } from "./cruds/tools_interconnections";
+import { AGENTS_INTERCONNECTIONS } from "./cruds/tools_interconnections";
 
 
 const UTMConverter = require('utm-converter');
@@ -41,7 +41,7 @@ const defaultOptions: DefaultOptions = {
 
 
 export { H_MapObject, H_Shape, H_InstantAction, H_ServiceRequest, H_Assignment, H_Target, H_WorkProcess, H_WorkProcessServicePlan,  H_WorkProcessType,
-         H_Tools, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue, H_ToolInterconnection };
+         H_Tools, H_Agent, H_Yard, H_Action, GeoPoint, H_Service, H_Guideline, H_SystemLog, H_UserAccount, Timestamp, H_MissionQueue, H_AgentInterconnection };
 
 
 
@@ -50,7 +50,7 @@ export { H_MapObject, H_Shape, H_InstantAction, H_ServiceRequest, H_Assignment, 
 export class HelyosServices {
     userAccounts: USERACCOUNT;
     mapObjects: MAPOBJECTS;
-    tools: TOOLS;
+    agents: AGENTS;
     yard: YARD;
     instantActions: INSTANT_ACTIONS;
     systemLogs: SYSTEMLOGS;
@@ -61,7 +61,9 @@ export class HelyosServices {
     workProcessType: WORKPROCESS_TYPE;
     extServices: EXTERNALSERVICES;
     servciceRequests: SERVICEREQUESTS;
-    toolsInterconnections: TOOLS_INTERCONNECTIONS;
+    toolsInterconnections: AGENTS_INTERCONNECTIONS;
+    agentsInterconnections: AGENTS_INTERCONNECTIONS;
+
 
     public connectionId: number;
     public connected: boolean = false;
@@ -108,7 +110,7 @@ export class HelyosServices {
             this.mapObjects = new MAPOBJECTS(this._client, this.socket);
             this.userAccounts = new USERACCOUNT(this._client, this.socket);
             this.instantActions = new INSTANT_ACTIONS(this._client, this.socket);
-            this.tools = new TOOLS(this._client, this.socket);
+            this.agents = new AGENTS(this._client, this.socket);
             this.missionQueue = new MISSIONQUEUE(this._client, this.socket);
             this.workProcess = new WORKPROCESS(this._client, this.socket);
             this.workProcessServicePlan = new WORKPROCESS_SERVICE_PLAN(this._client, this.socket);
@@ -118,7 +120,9 @@ export class HelyosServices {
             this.extServices = new EXTERNALSERVICES(this._client, this.socket);
             this.assignments = new ASSIGNMENT(this._client, this.socket);
             this.servciceRequests = new SERVICEREQUESTS(this._client, this.socket);
-            this.toolsInterconnections = new TOOLS_INTERCONNECTIONS(this._client, this.socket)
+            this.toolsInterconnections = new AGENTS_INTERCONNECTIONS(this._client, this.socket);
+            this.agentsInterconnections = new AGENTS_INTERCONNECTIONS(this._client, this.socket);
+            
 
         } else {
             console.log('web socket is not connected; check websocket url and port or try to login (username, password) again.')

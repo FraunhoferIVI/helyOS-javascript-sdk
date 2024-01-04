@@ -29,8 +29,8 @@ import { H_InstantAction  } from '../helyos.models';
                     status,
                     yardId,
                     createdAt,
-                    toolId,
-                    toolUuid,
+                    agentId,
+                    agentUuid,
                     error,
                     sender
                     }
@@ -67,8 +67,8 @@ import { H_InstantAction  } from '../helyos.models';
                             status,
                             yardId,
                             createdAt,
-                            toolId,
-                            toolUuid,
+                            agentId,
+                            agentUuid,
                             error,
                             sender
                             
@@ -102,8 +102,8 @@ import { H_InstantAction  } from '../helyos.models';
                             status,
                             yardId,
                             createdAt,
-                            toolId,
-                            toolUuid,
+                            agentId,
+                            agentUuid,
                             error,
                             sender,
                             result
@@ -140,8 +140,8 @@ import { H_InstantAction  } from '../helyos.models';
                     status,
                     yardId,
                     createdAt,
-                    toolId,
-                    toolUuid,
+                    agentId,
+                    agentUuid,
                     error,
                     sender,
                     result

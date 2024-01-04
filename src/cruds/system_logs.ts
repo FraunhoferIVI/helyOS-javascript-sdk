@@ -33,7 +33,7 @@ export class SYSTEMLOGS  {
                         logType
                         origin
                         serviceType
-                        toolUuid
+                        agentUuid
                         wprocId
                         yardId
                       }
@@ -77,7 +77,7 @@ export class SYSTEMLOGS  {
                     logType
                     origin
                     serviceType
-                    toolUuid
+                    agentUuid
                     wprocId
                     yardId
                 }
@@ -112,7 +112,7 @@ export class SYSTEMLOGS  {
                 logType
                 origin
                 serviceType
-                toolUuid
+                agentUuid
                 wprocId
                 yardId
                 }
