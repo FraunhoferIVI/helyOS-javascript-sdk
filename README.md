@@ -72,14 +72,14 @@ const password = 'password';
 .then( response => helyosService.connect())
 .then( connected => console.log(connected));;
 
-function listTools {
+function listAgents {
     return helyosService.agents.list(0)
     .then((agents: H_Agent[]) => {
         console.log(agents);
     });
 }
 
-function editTool(patch: H_Tools) {
+function editTool(patch: H_Agents) {
     return helyosService.agents.patch(patch)
     .then(agents => {
         console.log(agents);
@@ -135,7 +135,7 @@ helyosService.connect()
 
 | Model | Description |
 | --- | --- |
-| `H_Tools` | Tool represents a sensor or any movable device that can perform an action |
+| `H_Agents` | Tool represents a sensor or any movable device that can perform an action |
 | id: number | unique db identifcation number |
 | code: number | unique identifcation number |
 | name: string | agent name  |
