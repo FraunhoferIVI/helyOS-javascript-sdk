@@ -29,6 +29,8 @@
 
 ## About The Project
 
+**Important Update: We've relocated this project to a new [repository](https://helyosframework.github.io/helyos-javascript-sdk). Future updates and versions of this source code will be exclusively released in the new repository. This change was crucial to simplify project management and foster better collaboration.**
+
 The helyosjs-sdk allows the development of javascript applications using the helyOS framework.
 This library contains all necessary methods and entity types to build a front-end using helyOS as backend system. 
 
